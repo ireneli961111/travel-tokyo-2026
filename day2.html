@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5f1ec">
+<title>Day 2 · 修善寺到东京</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Serif+Display&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f1ec;
+    --bg-soft: #ebe5dd;
+    --bg-warm: #efe9de;
+    --card: #fefdfa;
+    --ink: #3a3530;
+    --ink-soft: #6b625a;
+    --ink-light: #9a9089;
+    --accent: #7d9376;            /* Day 2 主题色 · 竹绿 */
+    --accent-soft: #a8bba2;
+    --accent-bg: #e2e9dd;
+    --line: #e0d8cb;
+    --line-light: #ece5d8;
+    --warn: #c89c8a;
+    --warn-bg: #f4e4dc;
+
+    --cover-bg-1: #c2cebb;
+    --cover-bg-2: #d4ddcc;
+    --morning: #e6ece2;
+    --noon: #e9ede5;
+    --evening: #dde3d5;
+    --night: #d0d6c8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  html, body { background: var(--bg); min-height: 100vh; }
+  
+  /* 点击时间轴跳转目标·上方留出缓冲空间 */
+  #morning, #stroll, #lunch, #odoriko, #okura, #sazanka {
+    scroll-margin-top: 80px;
+  }
+  body {
+    color: var(--ink);
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 40px;
+  }
+  .page { background: var(--bg); min-height: 100vh; overflow-x: hidden; }
+  .container { max-width: 480px; margin: 0 auto; background: var(--bg); }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-light);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  .top-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .top-nav .home {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  /* ===== 封面 ===== */
+  .cover {
+    padding: 36px 24px 30px;
+    background: linear-gradient(180deg, var(--cover-bg-1) 0%, var(--cover-bg-2) 100%);
+  }
+  .cover-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .cover-date { font-family: 'DM Serif Display', serif; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.2em; }
+  .cover-day { font-size: 11px; color: var(--accent); letter-spacing: 0.3em; padding: 4px 12px; border: 1px solid var(--accent-soft); border-radius: 20px; background: rgba(255,255,255,0.5); }
+  .cover-title-cn { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1.2; margin-bottom: 6px; }
+  .cover-title-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 14px; color: var(--ink-soft); letter-spacing: 0.1em; margin-bottom: 20px; }
+  .cover-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 20px; }
+  .cover-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; color: var(--ink-soft); background: rgba(255,255,255,0.6); padding: 4px 11px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); }
+
+  /* ===== 航班卡 ===== */
+  .flight-card {
+    margin: 24px 16px 24px;
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 4px 16px rgba(60,80,100,0.06);
+    border: 1px solid var(--line-light);
+  }
+  .flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .flight-airline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flight-icon { font-size: 16px; }
+  .flight-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .flight-number {
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    font-family: 'DM Serif Display', serif;
+  }
+  .flight-seat {
+    text-align: right;
+  }
+  .flight-seat-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 2px;
+  }
+  .flight-seat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  
+  .flight-route {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .flight-endpoint {
+    text-align: center;
+  }
+  .flight-endpoint.right { text-align: center; }
+  .flight-code {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .flight-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .flight-date {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .flight-city {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .flight-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .flight-arrow-line {
+    width: 60px;
+    height: 1px;
+    background: var(--accent-soft);
+    position: relative;
+  }
+  .flight-arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -3px;
+    width: 0; height: 0;
+    border-left: 6px solid var(--accent-soft);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+  }
+  .flight-duration {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    font-family: 'DM Serif Display', serif;
+  }
+  
+  .flight-meta {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    gap: 8px;
+    text-align: center;
+  }
+  .flight-meta-item {
+    flex: 1;
+  }
+  .flight-meta-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 3px;
+  }
+  .flight-meta-value {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* ===== 时间轴 ===== */
+  .timeline-card {
+    margin: 20px 16px 16px;
+    background: rgba(125, 147, 118, 0.10);
+    border: 1px solid rgba(125, 147, 118, 0.22);
+    border-radius: 16px;
+    padding: 22px 22px 24px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+
+  /* ===== 整页路线按钮 (timeline-card 内) ===== */
+  .map-route-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 12px;
+    background: rgba(125, 147, 118, 0.13);
+    color: var(--ink);
+    border: 1px solid rgba(125, 147, 118, 0.3);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .map-route-btn:active {
+    background: var(--accent-bg);
+    transform: scale(0.99);
+  }
+  .map-route-btn .pin { font-size: 13px; }
+  .map-route-btn .label {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ===== 今日提醒卡 ===== */
+  .info-card {
+    margin: 0 16px 16px;
+    background: rgba(125, 147, 118, 0.13);
+    border: 1px solid rgba(125, 147, 118, 0.24);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .info-card-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(125, 147, 118, 0.15);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--ink-light); }
+  .info-value { 
+    color: var(--ink); 
+    font-weight: 500;
+    font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+  }
+
+  /* ===== 出发寄语卡 · 极简鉤括弧风 ===== */
+  .quote-card {
+    margin: 0 16px 24px;
+    background: rgba(125, 147, 118, 0.18);
+    border: 1px solid rgba(125, 147, 118, 0.30);
+    border-radius: 16px;
+    padding: 30px 24px 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .quote-mark { display: none; }
+  .quote-text {
+    font-family: 'Shippori Mincho', 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3a3530;
+    line-height: 1.95;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .quote-translation {
+    font-size: 11.5px;
+    color: #9a9089;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  .quote-author {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    font-weight: 500;
+  }
+  .quote-author::before { content: '— '; }
+  .timeline-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .timeline-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 4px;
+  }
+  .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px 10px;
+    margin: 0 -10px;
+    position: relative;
+    min-height: 36px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  a.timeline-row:hover {
+    background: var(--bg-warm);
+  }
+  a.timeline-row:active {
+    background: var(--bg-soft);
+  }
+  .timeline-time {
+    flex-shrink: 0;
+    width: 52px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    padding-top: 8px;
+  }
+  .timeline-dot-wrap {
+    position: relative;
+    width: 14px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .timeline-dot-wrap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -4px;
+    bottom: -4px;
+    width: 1px;
+    background: var(--accent-soft);
+    opacity: 0.5;
+  }
+  .timeline-row:first-child .timeline-dot-wrap::before {
+    top: 11px;
+  }
+  .timeline-row:last-child .timeline-dot-wrap::before {
+    bottom: calc(100% - 11px);
+  }
+  .timeline-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .timeline-dot.hollow {
+    background: var(--card);
+    border: 1.5px solid var(--accent-soft);
+  }
+  .timeline-content {
+    flex: 1;
+    padding: 8px 0 12px;
+    min-width: 0;
+  }
+  .timeline-action {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .timeline-action .sub {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-left: 6px;
+  }
+  .timeline-row.key .timeline-action {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .timeline-row.key .timeline-dot {
+    width: 9px;
+    height: 9px;
+    top: 10px;
+  }
+
+  /* ===== 时段 ===== */
+  .period { 
+    padding: 28px 16px 8px;
+    position: relative;
+  }
+  .period.flight { background: linear-gradient(180deg, var(--morning) 0%, var(--noon) 100%); }
+  .period.transit { background: linear-gradient(180deg, var(--noon) 0%, var(--evening) 100%); }
+  .period.arrival { background: linear-gradient(180deg, var(--evening) 0%, var(--night) 100%); }
+  
+  .period-header { 
+    margin: 0 4px 16px; 
+    padding-top: 4px;
+  }
+  .period-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .period-icon { font-size: 18px; opacity: 0.85; }
+  .period-cn { 
+    font-family: 'Noto Serif SC', serif; 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: var(--ink); 
+  }
+  .period-en { 
+    font-family: 'DM Serif Display', serif; 
+    font-style: italic; 
+    font-size: 11px; 
+    color: var(--ink-light); 
+    letter-spacing: 0.18em; 
+    padding-left: 28px;
+  }
+
+  /* ===== 交通票卡（每段交通一张）===== */
+  .transit-card {
+    background: var(--card);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .transit-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px;
+    bottom: 18px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+  .transit-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-left: 8px;
+  }
+  .transit-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .transit-icon { font-size: 16px; }
+  .transit-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .transit-name-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 1px;
+    letter-spacing: 0.1em;
+  }
+  .transit-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .transit-price .sub {
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-left: 3px;
+  }
+  .transit-price .usd {
+    display: block;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 2px;
+    text-align: right;
+  }
+  
+  .transit-route {
+    padding-left: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .transit-stop {
+    text-align: center;
+  }
+  .transit-stop-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .transit-stop-name {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .transit-stop-platform {
+    font-size: 9px;
+    color: var(--ink-light);
+    margin-top: 1px;
+  }
+  .transit-mid {
+    font-family: 'DM Serif Display', serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .transit-mid .arrow {
+    color: var(--accent-soft);
+    font-size: 14px;
+  }
+  
+  .transit-notes {
+    padding-left: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .transit-notes strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  
+  /* ===== 站点（鬼之栖）===== */
+  .stop { background: var(--card); border-radius: 16px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(60,80,100,0.04); }
+  .stop-top { padding: 18px 18px 14px; display: flex; align-items: flex-start; gap: 14px; }
+  .stop-time { flex-shrink: 0; text-align: center; padding-top: 2px; min-width: 50px; }
+  .stop-time-hr { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--accent); line-height: 1; }
+  .stop-time-dur { font-size: 10px; color: var(--ink-light); margin-top: 4px; letter-spacing: 0.05em; }
+  .stop-divider { width: 1px; background: var(--line); align-self: stretch; }
+  .stop-titles { flex: 1; min-width: 0; }
+  .stop-type-mini { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 3px; }
+  .stop-name { font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 2px; }
+  .stop-name-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 11px; color: var(--ink-light); line-height: 1.4; }
+
+  .stop-body { padding: 14px 18px 16px; }
+  .stop-desc { font-size: 13px; line-height: 1.85; color: var(--ink-soft); margin-bottom: 12px; }
+  .stop-desc strong { color: var(--ink); font-weight: 500; }
+  
+  .stop-info { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .info-chip {
+    font-size: 11px;
+    color: var(--ink-soft);
+    background: rgba(125, 147, 118, 0.12);
+    padding: 6px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(125, 147, 118, 0.22);
+    line-height: 1.5;
+  }
+  .info-chip strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 2px;
+  }
+  .info-chip .usd {
+    color: var(--ink-light);
+    margin-left: 4px;
+    font-size: 10px;
+  }
+  
+  .map-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 12px;
+    padding: 10px 12px;
+    background: rgba(125, 147, 118, 0.10);
+    border-radius: 10px;
+    border: 1px solid rgba(125, 147, 118, 0.22);
+    margin-top: 10px;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .map-link:active {
+    background: var(--accent-bg);
+    transform: scale(0.98);
+  }
+  .map-link .pin { color: var(--accent); }
+  
+  /* ===== 怀石菜单 ===== */
+  .menu-card {
+    background: rgba(125, 147, 118, 0.10);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    border: 1px dashed rgba(125, 147, 118, 0.30);
+  }
+  .menu-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .menu-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .menu-list li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .menu-list li:not(:last-child) {
+    border-bottom: 1px dotted var(--line);
+  }
+  .menu-list .jp {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ===== Notice ===== */
+  .notice {
+    background: rgba(125, 147, 118, 0.13);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.7;
+    border-left: 3px solid rgba(125, 147, 118, 0.55);
+  }
+  .notice strong { font-weight: 600; }
+  .notice .ico { color: rgba(125, 147, 118, 0.85); margin-right: 4px; }
+
+  /* ===== Tips 区 ===== */
+  .tips-section {
+    margin: 24px 16px 0;
+    padding: 22px 20px;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .tips-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .tips-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+  }
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-light);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-emoji {
+    flex-shrink: 0;
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+  }
+  .tip-content strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  /* ===== 底部导航 ===== */
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 30px 16px 0;
+  }
+  .bottom-nav a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    border: 1px solid var(--line);
+    transition: all 0.2s;
+  }
+  .bottom-nav a:active {
+    background: var(--bg-soft);
+    transform: scale(0.99);
+  }
+  .bottom-nav .prev { justify-content: flex-start; }
+  .bottom-nav .next { justify-content: flex-end; }
+  .bottom-nav .label {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+  }
+  .bottom-nav .title-link {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+  }
+  .bottom-nav .arrow { color: var(--accent); }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+  }
+
+  /* ===== 双栏布局 (默认手机端为单栏) ===== */
+  .layout { display: block; }
+  .col-left, .col-right { display: contents; }
+  .cover-inner { /* 手机端透明 */ }
+
+  /* ===== 平板竖屏 (768 - 899px) · 单栏放大 ===== */
+  @media (min-width: 768px) and (max-width: 899px) {
+    html { font-size: 16px; }
+    .container { 
+      max-width: 600px; 
+    }
+    body {
+      background: linear-gradient(180deg, var(--bg) 0%, #ede4d3 100%);
+    }
+  }
+
+  /* ===== 大宽屏 (iPad横屏 / 桌面) · HERO + 双栏 ===== */
+  @media (min-width: 900px) {
+    html { font-size: 16px; }
+    html, body { overflow: visible; }
+    body {
+      padding: 0;
+      background: var(--bg-soft);
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 10% 30%, rgba(125, 147, 118, 0.10), transparent 35%),
+        radial-gradient(circle at 90% 70%, rgba(125, 147, 118, 0.10), transparent 35%),
+        radial-gradient(circle at 50% 95%, rgba(168, 152, 120, 0.06), transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page {
+      background: transparent;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+    }
+    .container { 
+      max-width: 100%;
+      background: transparent;
+      padding: 0;
+    }
+    
+    /* 顶部导航 */
+    .top-nav {
+      backdrop-filter: blur(12px);
+      background: rgba(245, 241, 236, 0.85);
+      padding: 18px 40px;
+      border-radius: 0;
+    }
+
+    /* ===== HERO 全宽 ===== */
+    .cover {
+      margin: 0;
+      padding: 80px 40px 70px;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 60%);
+      pointer-events: none;
+    }
+    .cover-meta { 
+      margin-bottom: 32px; 
+      max-width: 800px;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+    .cover-date { font-size: 14px; }
+    .cover-day { font-size: 12px; padding: 5px 14px; }
+    .cover-title-cn { 
+      font-size: 64px; 
+      line-height: 1.05;
+      margin-bottom: 14px;
+      max-width: 800px;
+    }
+    .cover-title-en { 
+      font-size: 18px; 
+      margin-bottom: 32px;
+      max-width: 800px;
+    }
+    .cover-desc { 
+      font-size: 15px; 
+      line-height: 1.85;
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+    .cover-tags { max-width: 800px; gap: 8px; }
+    .tag { font-size: 12px; padding: 6px 14px; }
+
+    /* ===== 双栏 grid ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 40px 0;
+    }
+    .col-left, .col-right { display: block; }
+    
+    /* 左栏：sticky 跟随滚动·只占内容高度 */
+    .col-left {
+      position: sticky;
+      top: 88px;
+    }
+    .col-left .timeline-card {
+      margin: 0;
+    }
+    .col-left .info-card {
+      margin: 16px 0 0;
+    }
+    .col-left .quote-card {
+      margin: 16px 0 0;
+    }
+
+    .timeline-card {
+      margin: 0;
+      border-radius: 18px;
+    }
+
+    /* ===== 右栏 ===== */
+    .col-right > * {
+      max-width: none;
+    }
+
+    /* 右栏第一个 (航班卡) margin 调整 */
+    .flight-card {
+      margin: 0 0 24px 0;
+    }
+    
+    /* 时段：右栏内的圆角卡片·不再全宽 */
+    .period {
+      margin: 0 0 16px 0;
+      padding: 32px 28px 16px;
+      border-radius: 18px;
+    }
+    
+    /* Tips */
+    .tips-section {
+      margin: 24px 0 0 0;
+    }
+
+    /* 底部导航 + footer 全宽 */
+    .bottom-nav {
+      max-width: 1200px;
+      margin: 50px auto 0;
+      padding: 0 40px;
+    }
+    .footer {
+      max-width: 1200px;
+      margin: 32px auto 32px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="container">
+
+  <!-- 顶部导航 -->
+  <nav class="top-nav">
+    <a href="day1.html">← Day 1</a>
+    <a href="index.html" class="home">Tokyo 2026</a>
+    <a href="day3.html">Day 3 →</a>
+  </nav>
+
+  <!-- HERO 封面 (全宽) -->
+  <header class="cover">
+    <div class="cover-inner">
+      <div class="cover-meta">
+        <span class="cover-day">DAY 02</span>
+        <span class="cover-date">JUN · 17 · WED</span>
+      </div>
+      <h1 class="cover-title-cn">修善寺到东京</h1>
+      <p class="cover-title-en">Shuzenji → Tokyo · Slow Morning</p>
+      <p class="cover-desc">
+        睡到自然醒·9 点泡晨汤·朝食后慢慢散步竹林の小径与修禅寺。<br>
+        12:30 修善寺街区午餐·15:39 踊り子号一路海景北上·17:48 抵达 Okura·20 点 41F 山茶花铁板烧。
+      </p>
+      <div class="cover-tags">
+        <span class="tag">🎋 竹林の小径</span>
+        <span class="tag">⛩ 修禅寺与红桥</span>
+        <span class="tag">🚆 踊り子号海景</span>
+        <span class="tag">🥩 Sazanka 铁板烧</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 双栏容器 (宽屏才生效·手机端走单栏) -->
+  <div class="layout">
+
+  <!-- 左栏：时间轴 -->
+  <aside class="col-left">
+
+  <!-- 全天时间轴 -->
+  <section class="timeline-card">
+    <div class="timeline-title">🕐 全天时间轴</div>
+    <div class="timeline-subtitle">FULL DAY TIMELINE</div>
+
+    <div class="timeline">
+      <a class="timeline-row key" href="#morning">
+        <div class="timeline-time">9:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">起床 · 朝食 · 私汤</div></div>
+      </a>
+      <a class="timeline-row key" href="#stroll">
+        <div class="timeline-time">11:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">竹林の小径 · 修禅寺 · 独鈷の湯</div></div>
+      </a>
+      <a class="timeline-row key" href="#lunch">
+        <div class="timeline-time">12:30</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">修善寺街区午餐</div></div>
+      </a>
+      <a class="timeline-row" href="#stroll">
+        <div class="timeline-time">14:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">咖啡 + 散步 + 退房</div></div>
+      </a>
+      <a class="timeline-row key" href="#odoriko">
+        <div class="timeline-time">15:39</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">踊り子 10 号 → 東京 <span class="sub">A 侧海景</span></div></div>
+      </a>
+      <a class="timeline-row key" href="#okura">
+        <div class="timeline-time">18:15</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">Okura Tokyo · Check-in</div></div>
+      </a>
+      <a class="timeline-row key" href="#sazanka">
+        <div class="timeline-time">20:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">Sazanka 山茶花 · 铁板烧</div></div>
+      </a>
+    </div>
+
+    <!-- 整页路线按钮 -->
+    <a class="map-route-btn" href="https://www.google.com/maps/dir/34.9712,138.9396/34.9701,138.9281/34.9712,138.9281/34.9792,138.9504/35.1263,138.9111/35.6813,139.7671/35.6688,139.7437/" target="_blank" rel="noopener">
+      <span class="pin">📍</span>
+      <span class="label">在 Google 地图查看完整路线</span>
+    </a>
+  </section>
+
+  <!-- 今日提醒卡 -->
+  <section class="info-card">
+    <div class="info-card-title">📌 今日提醒</div>
+    <div class="info-card-subtitle">TODAY · NOTES</div>
+    <div class="info-list">
+      <div class="info-row">
+        <span class="info-label">🌅 日出</span>
+        <span class="info-value">4:25</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">🌇 日落</span>
+        <span class="info-value">18:56</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">🌡 气温</span>
+        <span class="info-value">26° / 19°</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">☔ 天气</span>
+        <span class="info-value">伊豆多云 · 东京晴</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">⚠️ 周三</span>
+        <span class="info-value">なゝ番休息</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 出发寄语 -->
+  <section class="quote-card">
+    <p class="quote-text">「竹の声、寺の鐘、湯の音。<br>静かなる修善寺の朝。」</p>
+    <p class="quote-translation">竹叶之声·古寺钟响·温泉之音<br>静寂的修善寺之晨</p>
+    <p class="quote-author">伊豆の風景</p>
+  </section>
+
+  </aside><!-- 左栏 END -->
+
+  <!-- 右栏：详情 -->
+  <main class="col-right">
+
+  <!-- ===== 时段 1: 修善寺の朝 ===== -->
+  <section class="period flight" id="morning">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🌅</span>
+        <span class="period-cn">修善寺の朝</span>
+      </div>
+      <div class="period-en">MORNING AT ONINOSUMIKA</div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">9:00</div>
+          <div class="stop-time-dur">SLOW MORNING</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">WAKE UP · 私汤 · 朝食</div>
+          <div class="stop-name">睡到自然醒</div>
+          <div class="stop-name-en">No Alarm · Take Your Time</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          昨晚长途加怀石·让身体彻底休息。<strong>不设闹钟</strong>·9 点左右起床。
+          先泡<strong>客房私汤</strong>·驱散疲惫·然后下楼吃早餐——「鬼の栖の朝御前」出汁、米、味噌都讲究·8 - 9 道小钵摆开·配静冈茶。
+        </p>
+        <div class="stop-info">
+          <span class="info-chip">♨️ 房间私汤</span>
+          <span class="info-chip">🍱 包早餐</span>
+          <span class="info-chip">📍 朝食 8:00 - 10:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 2: 修善寺散步 ===== -->
+  <section class="period transit" id="stroll">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🎋</span>
+        <span class="period-cn">修善寺散步</span>
+      </div>
+      <div class="period-en">SHUZENJI STROLL</div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">11:00</div>
+          <div class="stop-time-dur">2.5 hrs</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">3 STOPS · 步行环线</div>
+          <div class="stop-name">竹林の小径 · 修禅寺 · 独鈷の湯</div>
+          <div class="stop-name-en">Bamboo Path · Temple · Red Bridges</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          鬼之栖出门步行 5 - 10 分钟即可到达<strong>修善寺核心街区</strong>·三个景点串成 1.5 公里小环线·慢慢逛 1.5 - 2 小时。
+        </p>
+
+        <div class="menu-card">
+          <div class="menu-title">三个核心地标</div>
+          <div class="menu-en">CORE LANDMARKS</div>
+          <ul class="menu-list">
+            <li><span class="jp">🎋 竹林の小径</span><span>百米竹林石板路·中央圆形长椅·伊豆"小嵯峨野"</span></li>
+            <li><span class="jp">⛩ 修禅寺</span><span>807 年弘法大师开山·1200 年古刹·静谧庄严</span></li>
+            <li><span class="jp">🌉 独鈷の湯</span><span>桂川五座红桥·空海以独鈷杵开汤之处·拍照胜地</span></li>
+          </ul>
+        </div>
+
+        <div class="stop-info">
+          <span class="info-chip">⏱ 1.5 - 2 hrs</span>
+          <span class="info-chip">🚶 平缓步行</span>
+          <span class="info-chip">📸 红桥必拍</span>
+          <span class="info-chip">🆓 免费</span>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%BF%AE%E7%A6%85%E5%AF%BA&query_place_id=ChIJOwdW99DsGWARousj-05vNbQ" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Google 地图 · 修禅寺
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 3: 午餐 ===== -->
+  <section class="period transit" id="lunch">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🍱</span>
+        <span class="period-cn">修善寺午餐</span>
+      </div>
+      <div class="period-en">LUNCH IN SHUZENJI</div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">12:30</div>
+          <div class="stop-time-dur">LUNCH</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">FIRST CHOICE · 但今天可能休</div>
+          <div class="stop-name">禅風亭なゝ番</div>
+          <div class="stop-name-en">Zenpu-tei Nanaban · Soba</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          修善寺<strong>名店</strong>·百年荞麦·伊豆当地野菜天妇罗·Tabelog 3.7+ 长年高分。
+        </p>
+        <div class="notice">
+          <span class="ico">⚠️</span>
+          <strong>周三定休</strong>·我们 6/17 周三去·可能吃不到。<strong>到了再看门口告示</strong>·开就赶紧进。
+        </div>
+        <div class="stop-info">
+          <span class="info-chip">💴 ¥1,500 - 3,000 <span class="usd">≈ $9-19</span></span>
+          <span class="info-chip">🍜 招牌：天ざる蕎麦</span>
+          <span class="info-chip">📍 修禅寺旁</span>
+        </div>
+
+        <div class="menu-card" style="margin-top: 16px;">
+          <div class="menu-title">备选方案 · 全部周三营业</div>
+          <div class="menu-en">BACKUP OPTIONS · OPEN WED</div>
+          <ul class="menu-list">
+            <li><span class="jp">🐟 ぬいた銅偏</span><span>当地海鲜定食 · ¥2,000 - 3,500</span></li>
+            <li><span class="jp">🍱 仕田うなぎ</span><span>鳗鱼饭 · ¥3,000 - 5,000 · 老店</span></li>
+          </ul>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E7%A6%85%E9%A2%A8%E4%BA%AD%E3%81%AA%E3%82%9D%E7%95%AA&query_place_id=ChIJizc4-s_sGWARHaqNfK6Ya2w" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Google 地图 · 禅風亭なゝ番
+        </a>
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">14:00</div>
+          <div class="stop-time-dur">COFFEE</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">REST · 回酒店退房</div>
+          <div class="stop-name">咖啡 + 退房 + 慢慢走</div>
+          <div class="stop-name-en">Coffee · Check-out · Stroll Back</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          午餐后<strong>不用赶</strong>·随便找家咖啡店休息一下·然后慢慢走回鬼之栖。
+          15:00 退房 → 15:15 Taxi → 15:30 修善寺站→ 15:39 上车。
+        </p>
+        <div class="stop-info">
+          <span class="info-chip">☕ 散步咖啡</span>
+          <span class="info-chip">🧳 退房 11:00 即可 · 寄存到 15:00</span>
+          <span class="info-chip">🚕 Taxi ¥1,500 <span class="usd">≈ $9</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 4: 踊り子号 ===== -->
+  <section class="period transit" id="odoriko" style="background: linear-gradient(180deg, var(--evening) 0%, var(--evening) 100%);">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🚆</span>
+        <span class="period-cn">踊り子 10 号</span>
+      </div>
+      <div class="period-en">ODORIKO · SHUZENJI TO TOKYO</div>
+    </div>
+
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚆</span>
+          <div>
+            <div class="transit-name">踊り子 10 号</div>
+            <div class="transit-name-en">Odoriko Limited Express · 全車指定席</div>
+          </div>
+        </div>
+        <div class="transit-price">¥4,830<span class="sub">/ 人</span><span class="usd">≈ $30</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">15:39</div>
+          <div class="transit-stop-name">修善寺</div>
+        </div>
+        <div class="transit-mid">
+          <div>2 hr 9 min</div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">17:48</div>
+          <div class="transit-stop-name">東京</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>A 侧</strong>（朝海方向 · 偶数 1 号 A、3 号 A 等）→ <strong>沿途海景</strong>。
+        えきねっと 提前订座·选 <strong>窗边 A 侧</strong>。
+      </div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">途中</div>
+          <div class="stop-time-dur">SCENERY</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">SEA VIEW · 沿途看点</div>
+          <div class="stop-name">2 小时海景慢车</div>
+          <div class="stop-name-en">Slow Train Along the Coast</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          踊り子号是<strong>东京到伊豆唯一的特急</strong>·从修善寺一路向北·中途穿过<strong>热海 · 真鶴 · 小田原 · 平塚 · 大船</strong>·真鶴到热海段会看到<strong>相模湾海景</strong>·15 分钟左右。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 5: Okura check-in ===== -->
+  <section class="period arrival" id="okura">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🏨</span>
+        <span class="period-cn">The Okura Tokyo</span>
+      </div>
+      <div class="period-en">OKURA · CHECK-IN</div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">18:15</div>
+          <div class="stop-time-dur">CHECK-IN</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">HOTEL · 4 晚连住</div>
+          <div class="stop-name">Okura Tokyo · Heritage Wing</div>
+          <div class="stop-name-en">虎ノ門 · Prestige Tower</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          東京站 → <strong>JR 山手线</strong>到新橋（约 10 分钟）→ Taxi 5 分钟到酒店。<br>
+          或東京站直接 Taxi 约 ¥2,000·堵车的话 20 分钟内能到。
+        </p>
+
+        <div class="menu-card">
+          <div class="menu-title">FHR 权益清单</div>
+          <div class="menu-en">FINE HOTELS &amp; RESORTS</div>
+          <ul class="menu-list">
+            <li><span class="jp">🛏 升级</span><span>视客房情况 · 通常升一档</span></li>
+            <li><span class="jp">🍳 早餐</span><span>每日 2 人 · Orchid 厅自助</span></li>
+            <li><span class="jp">💵 Credit</span><span>$100 / 单房 · 餐厅 / Spa 可用</span></li>
+            <li><span class="jp">🌅 早到</span><span>视情况开放 · 可问 4pm 前进房</span></li>
+            <li><span class="jp">🌇 晚退</span><span>最晚 16:00 退房 · 我们订好 6/21 用</span></li>
+          </ul>
+        </div>
+
+        <div class="notice">
+          <span class="ico">🛎</span>
+          <strong>到达后</strong>跟前台说 <strong>「FHR の利用」</strong>·会确认 FHR 权益清单·并让礼宾代订今晚 8 点 Sazanka·告知 Amex Platinum
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=The+Okura+Tokyo&query_place_id=ChIJuecmcH2LGGARgmOaAPaK9zA" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Google 地图 · The Okura Tokyo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 6: Sazanka 山茶花 ===== -->
+  <section class="period arrival" id="sazanka">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🥩</span>
+        <span class="period-cn">Sazanka 山茶花</span>
+      </div>
+      <div class="period-en">TEPPANYAKI · 41F</div>
+    </div>
+
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">20:00</div>
+          <div class="stop-time-dur">TEPPANYAKI</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">DINNER · 主厨吧台前现做</div>
+          <div class="stop-name">山茶花 · 铁板烧</div>
+          <div class="stop-name-en">Sazanka · Prestige Tower 41F</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          Okura 旗舰餐厅·<strong>41F 高层夜景</strong>·主厨在你面前现烤<strong>日本和牛 + 鲍鱼 + 龙虾 + 海老</strong>·全套约 90 分钟。<br>
+          点厨师推荐套餐·配清酒或香槟·气氛轻松不正装·完美的晚餐。
+        </p>
+        <div class="stop-info">
+          <span class="info-chip">⏱ 90 - 120 min</span>
+          <span class="info-chip">💴 ¥25k-40k / 人 <span class="usd">≈ $157-252</span></span>
+          <span class="info-chip">💵 FHR $100 credit 可用</span>
+          <span class="info-chip">👔 Smart Casual</span>
+        </div>
+
+        <div class="menu-card">
+          <div class="menu-title">铁板烧推荐套餐</div>
+          <div class="menu-en">RECOMMENDED COURSE</div>
+          <ul class="menu-list">
+            <li><span class="jp">前菜</span><span>季节蔬菜 + 海鲜小品</span></li>
+            <li><span class="jp">海老</span><span>明虾·头身分烤·配蒜片</span></li>
+            <li><span class="jp">鲍鱼</span><span>姿煮鲍鱼·肝酱蘸食</span></li>
+            <li><span class="jp">和牛</span><span>A5 黑毛和牛<strong>サーロイン</strong>·分两次烤</span></li>
+            <li><span class="jp">蒜炒饭</span><span>铁板牛油蒜炒饭·赤味噌汁</span></li>
+            <li><span class="jp">水菓子</span><span>季节果物 + 和菓子 + 抹茶</span></li>
+          </ul>
+        </div>
+
+        <div class="notice">
+          <span class="ico">📞</span>
+          <strong>预约方式</strong>Tablecheck 或让 Okura 礼宾代订·告知<strong>「FHR の利用」</strong>·会安排吧台座位
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Sazanka+Okura+Tokyo&query_place_id=ChIJuecmcH2LGGARgmOaAPaK9zA" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Google 地图 · Sazanka (Okura 41F)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section class="tips-section">
+    <div class="tips-title">✨ 今日 Tips</div>
+    <div class="tips-en">DAY 2 TIPS</div>
+
+    <div class="tip-item">
+      <span class="tip-emoji">⚠️</span>
+      <div class="tip-content">
+        <strong>禅風亭なゝ番 周三休</strong>到了门口看告示·开则进·没开就用备选店（ぬいた銅偏 / 仕田うなぎ）
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">🎫</span>
+      <div class="tip-content">
+        <strong>踊り子号订座</strong>えきねっと 提前选<strong>A 侧（偶数车 1A、3A）</strong>·朝海方向·真鶴前后看相模湾
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">🛎</span>
+      <div class="tip-content">
+        <strong>Okura check-in</strong>问礼宾领 FHR 福利清单·让他们代订 Sazanka 8pm·告知<strong>「FHR の利用」</strong>
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">👔</span>
+      <div class="tip-content">
+        <strong>Sazanka 着装</strong>Smart Casual 即可 · 不需要正装 · 但建议有领衣服 + 长裤
+      </div>
+    </div>
+  </section>
+
+  </main><!-- 右栏 END -->
+
+  </div><!-- 双栏 layout END -->
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a class="prev" href="day1.html">
+      <span class="arrow">←</span>
+      <div>
+        <div class="label">PREV</div>
+        <div class="title-link">Day 1 · 羽田到修善寺</div>
+      </div>
+    </a>
+    <a class="next" href="day3.html">
+      <div style="text-align:right;">
+        <div class="label">NEXT</div>
+        <div class="title-link">Day 3 · 世田谷七站</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="footer">— Tokyo · June 2026 —</div>
+
+</div>
+</div>
+<script>
+  // 时间轴点击 · 拦截默认行为·改为 scrollIntoView (避免 iOS Safari 弹窗)
+  document.querySelectorAll('a.timeline-row[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var targetId = this.getAttribute('href').substring(1);
+      var target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
