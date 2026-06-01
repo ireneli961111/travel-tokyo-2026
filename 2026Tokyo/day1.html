@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5f1ec">
+<title>Day 1 · 羽田到修善寺</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Serif+Display&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f1ec;
+    --bg-soft: #ebe5dd;
+    --bg-warm: #efe9de;
+    --card: #fefdfa;
+    --ink: #3a3530;
+    --ink-soft: #6b625a;
+    --ink-light: #9a9089;
+    --accent: #7a99a8;            /* Day 1 主题色 · 湖蓝 */
+    --accent-soft: #a3bbc6;
+    --accent-bg: #e0e8ed;
+    --line: #e0d8cb;
+    --line-light: #ece5d8;
+    --warn: #c89c8a;
+    --warn-bg: #f4e4dc;
+
+    --cover-bg-1: #c5d4dc;
+    --cover-bg-2: #d6e0e6;
+    --morning: #e6ecf0;
+    --noon: #e8eaeb;
+    --evening: #dde2e5;
+    --night: #d0d5d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  html, body { background: var(--bg); min-height: 100vh; }
+  
+  /* 点击时间轴跳转目标·上方留出缓冲空间 */
+  #flight, #arrival, #transit, #shinkansen, #oninosumika {
+    scroll-margin-top: 80px;
+  }
+  body {
+    color: var(--ink);
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 40px;
+  }
+  .page { background: var(--bg); min-height: 100vh; overflow-x: hidden; }
+  .container { max-width: 480px; margin: 0 auto; background: var(--bg); }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-light);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  .top-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .top-nav .home {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  /* ===== 封面 ===== */
+  .cover {
+    padding: 36px 24px 30px;
+    background: linear-gradient(180deg, var(--cover-bg-1) 0%, var(--cover-bg-2) 100%);
+  }
+  .cover-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .cover-date { font-family: 'DM Serif Display', serif; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.2em; }
+  .cover-day { font-size: 11px; color: var(--accent); letter-spacing: 0.3em; padding: 4px 12px; border: 1px solid var(--accent-soft); border-radius: 20px; background: rgba(255,255,255,0.5); }
+  .cover-title-cn { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1.2; margin-bottom: 6px; }
+  .cover-title-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 14px; color: var(--ink-soft); letter-spacing: 0.1em; margin-bottom: 20px; }
+  .cover-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 20px; }
+  .cover-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; color: var(--ink-soft); background: rgba(255,255,255,0.6); padding: 4px 11px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); }
+
+  /* ===== 航班卡 ===== */
+  .flight-card {
+    margin: 24px 16px 24px;
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 4px 16px rgba(60,80,100,0.06);
+    border: 1px solid var(--line-light);
+  }
+  .flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .flight-airline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flight-icon { font-size: 16px; }
+  .flight-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .flight-number {
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    font-family: 'DM Serif Display', serif;
+  }
+  .flight-seat {
+    text-align: right;
+  }
+  .flight-seat-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 2px;
+  }
+  .flight-seat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  
+  .flight-route {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .flight-endpoint {
+    text-align: center;
+  }
+  .flight-endpoint.right { text-align: center; }
+  .flight-code {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .flight-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .flight-date {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .flight-city {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .flight-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .flight-arrow-line {
+    width: 60px;
+    height: 1px;
+    background: var(--accent-soft);
+    position: relative;
+  }
+  .flight-arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -3px;
+    width: 0; height: 0;
+    border-left: 6px solid var(--accent-soft);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+  }
+  .flight-duration {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    font-family: 'DM Serif Display', serif;
+  }
+  
+  .flight-meta {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    gap: 8px;
+    text-align: center;
+  }
+  .flight-meta-item {
+    flex: 1;
+  }
+  .flight-meta-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 3px;
+  }
+  .flight-meta-value {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* ===== 时间轴 ===== */
+  .timeline-card {
+    margin: 20px 16px 16px;
+    background: rgba(122, 153, 168, 0.10);
+    border: 1px solid rgba(122, 153, 168, 0.22);
+    border-radius: 16px;
+    padding: 22px 22px 24px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+
+  /* ===== 整页路线按钮 (timeline-card 内) ===== */
+  .map-route-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 12px;
+    background: rgba(122, 153, 168, 0.13);
+    color: var(--ink);
+    border: 1px solid rgba(122, 153, 168, 0.3);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .map-route-btn:active {
+    background: var(--accent-bg);
+    transform: scale(0.99);
+  }
+  .map-route-btn .pin { font-size: 13px; }
+  .map-route-btn .label {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ===== 今日提醒卡 ===== */
+  .info-card {
+    margin: 0 16px 16px;
+    background: rgba(122, 153, 168, 0.13);
+    border: 1px solid rgba(122, 153, 168, 0.24);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .info-card-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(122, 153, 168, 0.15);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--ink-light); }
+  .info-value { 
+    color: var(--ink); 
+    font-weight: 500;
+    font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+  }
+
+  /* ===== 出发寄语卡 · 极简鉤括弧风 ===== */
+  .quote-card {
+    margin: 0 16px 24px;
+    background: rgba(122, 153, 168, 0.18);
+    border: 1px solid rgba(122, 153, 168, 0.30);
+    border-radius: 16px;
+    padding: 30px 24px 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .quote-mark { display: none; }
+  .quote-text {
+    font-family: 'Shippori Mincho', 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3a3530;
+    line-height: 1.95;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .quote-translation {
+    font-size: 11.5px;
+    color: #9a9089;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  .quote-author {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    font-weight: 500;
+  }
+  .quote-author::before { content: '— '; }
+  .timeline-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .timeline-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 4px;
+  }
+  .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px 10px;
+    margin: 0 -10px;
+    position: relative;
+    min-height: 36px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  a.timeline-row:hover {
+    background: var(--bg-warm);
+  }
+  a.timeline-row:active {
+    background: var(--bg-soft);
+  }
+  .timeline-time {
+    flex-shrink: 0;
+    width: 52px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    padding-top: 8px;
+  }
+  .timeline-dot-wrap {
+    position: relative;
+    width: 14px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .timeline-dot-wrap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -4px;
+    bottom: -4px;
+    width: 1px;
+    background: var(--accent-soft);
+    opacity: 0.5;
+  }
+  .timeline-row:first-child .timeline-dot-wrap::before {
+    top: 11px;
+  }
+  .timeline-row:last-child .timeline-dot-wrap::before {
+    bottom: calc(100% - 11px);
+  }
+  .timeline-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .timeline-dot.hollow {
+    background: var(--card);
+    border: 1.5px solid var(--accent-soft);
+  }
+  .timeline-content {
+    flex: 1;
+    padding: 8px 0 12px;
+    min-width: 0;
+  }
+  .timeline-action {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .timeline-action .sub {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-left: 6px;
+  }
+  .timeline-row.key .timeline-action {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .timeline-row.key .timeline-dot {
+    width: 9px;
+    height: 9px;
+    top: 10px;
+  }
+
+  /* ===== 时段 ===== */
+  .period { 
+    padding: 28px 16px 8px;
+    position: relative;
+  }
+  .period.flight { background: linear-gradient(180deg, var(--morning) 0%, var(--noon) 100%); }
+  .period.transit { background: linear-gradient(180deg, var(--noon) 0%, var(--evening) 100%); }
+  .period.arrival { background: linear-gradient(180deg, var(--evening) 0%, var(--night) 100%); }
+  
+  .period-header { 
+    margin: 0 4px 16px; 
+    padding-top: 4px;
+  }
+  .period-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .period-icon { font-size: 18px; opacity: 0.85; }
+  .period-cn { 
+    font-family: 'Noto Serif SC', serif; 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: var(--ink); 
+  }
+  .period-en { 
+    font-family: 'DM Serif Display', serif; 
+    font-style: italic; 
+    font-size: 11px; 
+    color: var(--ink-light); 
+    letter-spacing: 0.18em; 
+    padding-left: 28px;
+  }
+
+  /* ===== 交通票卡（每段交通一张）===== */
+  .transit-card {
+    background: var(--card);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .transit-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px;
+    bottom: 18px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+  .transit-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-left: 8px;
+  }
+  .transit-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .transit-icon { font-size: 16px; }
+  .transit-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .transit-name-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 1px;
+    letter-spacing: 0.1em;
+  }
+  .transit-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .transit-price .sub {
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-left: 3px;
+  }
+  .transit-price .usd {
+    display: block;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 2px;
+    text-align: right;
+  }
+  
+  .transit-route {
+    padding-left: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .transit-stop {
+    text-align: center;
+  }
+  .transit-stop-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .transit-stop-name {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .transit-stop-platform {
+    font-size: 9px;
+    color: var(--ink-light);
+    margin-top: 1px;
+  }
+  .transit-mid {
+    font-family: 'DM Serif Display', serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .transit-mid .arrow {
+    color: var(--accent-soft);
+    font-size: 14px;
+  }
+  
+  .transit-notes {
+    padding-left: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .transit-notes strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  
+  /* ===== 站点（鬼之栖）===== */
+  .stop { background: var(--card); border-radius: 16px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(60,80,100,0.04); }
+  .stop-top { padding: 18px 18px 14px; display: flex; align-items: flex-start; gap: 14px; }
+  .stop-time { flex-shrink: 0; text-align: center; padding-top: 2px; min-width: 50px; }
+  .stop-time-hr { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--accent); line-height: 1; }
+  .stop-time-dur { font-size: 10px; color: var(--ink-light); margin-top: 4px; letter-spacing: 0.05em; }
+  .stop-divider { width: 1px; background: var(--line); align-self: stretch; }
+  .stop-titles { flex: 1; min-width: 0; }
+  .stop-type-mini { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 3px; }
+  .stop-name { font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 2px; }
+  .stop-name-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 11px; color: var(--ink-light); line-height: 1.4; }
+
+  .stop-body { padding: 14px 18px 16px; }
+  .stop-desc { font-size: 13px; line-height: 1.85; color: var(--ink-soft); margin-bottom: 12px; }
+  .stop-desc strong { color: var(--ink); font-weight: 500; }
+  
+  .stop-info { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .info-chip {
+    font-size: 11px;
+    color: var(--ink-soft);
+    background: rgba(122, 153, 168, 0.12);
+    padding: 5px 11px;
+    border-radius: 12px;
+    border: 1px solid rgba(122, 153, 168, 0.22);
+  }
+  .info-chip strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 2px;
+  }
+  
+  .map-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 12px;
+    padding: 10px 12px;
+    background: rgba(122, 153, 168, 0.10);
+    border-radius: 10px;
+    border: 1px solid rgba(122, 153, 168, 0.22);
+    margin-top: 10px;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .map-link:active {
+    background: var(--accent-bg);
+    transform: scale(0.98);
+  }
+  .map-link .pin { color: var(--accent); }
+  
+  /* ===== 怀石菜单 ===== */
+  .menu-card {
+    background: rgba(122, 153, 168, 0.10);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 12px;
+    border: 1px dashed rgba(122, 153, 168, 0.30);
+  }
+  .menu-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .menu-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .menu-list li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .menu-list li:not(:last-child) {
+    border-bottom: 1px dotted var(--line);
+  }
+  .menu-list .jp {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ===== Notice ===== */
+  .notice {
+    background: rgba(122, 153, 168, 0.13);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.65;
+    border-left: 3px solid rgba(122, 153, 168, 0.55);
+  }
+  .notice strong { font-weight: 600; }
+  .notice .ico { color: rgba(122, 153, 168, 0.85); margin-right: 4px; }
+
+  /* ===== Tips 区 ===== */
+  .tips-section {
+    margin: 24px 16px 0;
+    padding: 22px 20px;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(60,80,100,0.04);
+  }
+  .tips-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .tips-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+  }
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-light);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-emoji {
+    flex-shrink: 0;
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+  }
+  .tip-content strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  /* ===== 底部导航 ===== */
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 30px 16px 0;
+  }
+  .bottom-nav a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    border: 1px solid var(--line);
+    transition: all 0.2s;
+  }
+  .bottom-nav a:active {
+    background: var(--bg-soft);
+    transform: scale(0.99);
+  }
+  .bottom-nav .prev { justify-content: flex-start; }
+  .bottom-nav .next { justify-content: flex-end; }
+  .bottom-nav .label {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+  }
+  .bottom-nav .title-link {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+  }
+  .bottom-nav .arrow { color: var(--accent); }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+  }
+
+  /* ===== 双栏布局 (默认手机端为单栏) ===== */
+  .layout { display: block; }
+  .col-left, .col-right { display: contents; }
+  .cover-inner { /* 手机端透明 */ }
+
+  /* ===== 平板竖屏 (768 - 899px) · 单栏放大 ===== */
+  @media (min-width: 768px) and (max-width: 899px) {
+    html { font-size: 16px; }
+    .container { 
+      max-width: 600px; 
+    }
+    body {
+      background: linear-gradient(180deg, var(--bg) 0%, #ede4d3 100%);
+    }
+  }
+
+  /* ===== 大宽屏 (iPad横屏 / 桌面) · HERO + 双栏 ===== */
+  @media (min-width: 900px) {
+    html { font-size: 16px; }
+    html, body { overflow: visible; }
+    body {
+      padding: 0;
+      background: var(--bg-soft);
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 10% 30%, rgba(122, 153, 168, 0.10), transparent 35%),
+        radial-gradient(circle at 90% 70%, rgba(122, 153, 168, 0.10), transparent 35%),
+        radial-gradient(circle at 50% 95%, rgba(168, 152, 120, 0.06), transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page {
+      background: transparent;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+    }
+    .container { 
+      max-width: 100%;
+      background: transparent;
+      padding: 0;
+    }
+    
+    /* 顶部导航 */
+    .top-nav {
+      backdrop-filter: blur(12px);
+      background: rgba(245, 241, 236, 0.85);
+      padding: 18px 40px;
+      border-radius: 0;
+    }
+
+    /* ===== HERO 全宽 ===== */
+    .cover {
+      margin: 0;
+      padding: 80px 40px 70px;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 60%);
+      pointer-events: none;
+    }
+    .cover-meta { 
+      margin-bottom: 32px; 
+      max-width: 800px;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+    .cover-date { font-size: 14px; }
+    .cover-day { font-size: 12px; padding: 5px 14px; }
+    .cover-title-cn { 
+      font-size: 64px; 
+      line-height: 1.05;
+      margin-bottom: 14px;
+      max-width: 800px;
+    }
+    .cover-title-en { 
+      font-size: 18px; 
+      margin-bottom: 32px;
+      max-width: 800px;
+    }
+    .cover-desc { 
+      font-size: 15px; 
+      line-height: 1.85;
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+    .cover-tags { max-width: 800px; gap: 8px; }
+    .tag { font-size: 12px; padding: 6px 14px; }
+
+    /* ===== 双栏 grid ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 40px 0;
+    }
+    .col-left, .col-right { display: block; }
+    
+    /* 左栏：sticky 跟随滚动·只占内容高度 */
+    .col-left {
+      position: sticky;
+      top: 88px;
+    }
+    .col-left .timeline-card {
+      margin: 0;
+    }
+    .col-left .info-card {
+      margin: 16px 0 0;
+    }
+    .col-left .quote-card {
+      margin: 16px 0 0;
+    }
+
+    .timeline-card {
+      margin: 0;
+      border-radius: 18px;
+    }
+
+    /* ===== 右栏 ===== */
+    .col-right > * {
+      max-width: none;
+    }
+
+    /* 右栏第一个 (航班卡) margin 调整 */
+    .flight-card {
+      margin: 0 0 24px 0;
+    }
+    
+    /* 时段：右栏内的圆角卡片·不再全宽 */
+    .period {
+      margin: 0 0 16px 0;
+      padding: 32px 28px 16px;
+      border-radius: 18px;
+    }
+    
+    /* Tips */
+    .tips-section {
+      margin: 24px 0 0 0;
+    }
+
+    /* 底部导航 + footer 全宽 */
+    .bottom-nav {
+      max-width: 1200px;
+      margin: 50px auto 0;
+      padding: 0 40px;
+    }
+    .footer {
+      max-width: 1200px;
+      margin: 32px auto 32px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="container">
+
+  <!-- 顶部导航 -->
+  <nav class="top-nav">
+    <a href="prep.html">← 临行准备</a>
+    <a href="index.html" class="home">Tokyo 2026</a>
+    <a href="day2.html">Day 2 →</a>
+  </nav>
+
+  <!-- HERO 封面 (全宽) -->
+  <header class="cover">
+    <div class="cover-inner">
+      <div class="cover-meta">
+        <span class="cover-day">DAY 01</span>
+        <span class="cover-date">JUN · 16 · TUE</span>
+      </div>
+      <h1 class="cover-title-cn">羽田到修善寺</h1>
+      <p class="cover-title-en">Haneda → Shuzenji · The Long Day</p>
+      <p class="cover-desc">
+        上午 11:55 从西雅图启程·跨越太平洋·当地 14:20 抵达羽田。<br>
+        入关取行李·搭单轨电车进东京·换乘新干线南下三島·伊豆箱根线终点站修善寺·Taxi 5 分钟抵达鬼之栖·19 点温泉怀石。
+      </p>
+      <div class="cover-tags">
+        <span class="tag">✈️ 跨太平洋日间航班</span>
+        <span class="tag">🚄 新干线 + 伊豆箱根</span>
+        <span class="tag">♨️ 鬼之栖私汤温泉</span>
+        <span class="tag">🍱 怀石晚餐</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 双栏容器 (宽屏才生效·手机端走单栏) -->
+  <div class="layout">
+
+  <!-- 左栏：时间轴 -->
+  <aside class="col-left">
+
+  <!-- 全天时间轴 -->
+  <section class="timeline-card">
+    <div class="timeline-title">🕐 全天时间轴</div>
+    <div class="timeline-subtitle">FULL DAY TIMELINE</div>
+
+    <div class="timeline">
+      <a class="timeline-row key" href="#flight">
+        <div class="timeline-time">11:55</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">SEA 起飞 · DL167</div></div>
+      </a>
+      <a class="timeline-row key" href="#arrival">
+        <div class="timeline-time">14:20</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">HND 落地 <span class="sub">+1 日 · 入关取行李</span></div></div>
+      </a>
+      <a class="timeline-row" href="#transit">
+        <div class="timeline-time">15:18</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">单轨电车 → 浜松町 → 山手线 → 東京站</div></div>
+      </a>
+      <a class="timeline-row key" href="#shinkansen">
+        <div class="timeline-time">16:27</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">こだま 821 号 → 三島</div></div>
+      </a>
+      <a class="timeline-row key" href="#shinkansen">
+        <div class="timeline-time">17:42</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">伊豆箱根线 → 修善寺</div></div>
+      </a>
+      <a class="timeline-row" href="#shinkansen">
+        <div class="timeline-time">18:17</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">抵达修善寺站 · Taxi 10 分钟</div></div>
+      </a>
+      <a class="timeline-row key" href="#oninosumika">
+        <div class="timeline-time">18:35</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">抵达鬼之栖 · Check-in</div></div>
+      </a>
+      <a class="timeline-row key" href="#oninosumika">
+        <div class="timeline-time">19:00</div>
+        <div class="timeline-dot-wrap"><div class="timeline-dot"></div></div>
+        <div class="timeline-content"><div class="timeline-action">怀石晚餐</div></div>
+      </a>
+    </div>
+
+    <!-- 整页路线按钮 -->
+    <a class="map-route-btn" href="https://www.google.com/maps/dir/35.5494,139.7798/35.6813,139.7671/35.1263,138.9111/34.9792,138.9504/34.9712,138.9396/" target="_blank" rel="noopener">
+      <span class="pin">📍</span>
+      <span class="label">在 Google 地图查看完整路线</span>
+    </a>
+  </section>
+
+  <!-- 今日提醒卡 -->
+  <section class="info-card">
+    <div class="info-card-title">📌 今日提醒</div>
+    <div class="info-card-subtitle">TODAY · NOTES</div>
+    <div class="info-list">
+      <div class="info-row">
+        <span class="info-label">🌅 日出</span>
+        <span class="info-value">4:25</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">🌇 日落</span>
+        <span class="info-value">18:55</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">🌡 气温</span>
+        <span class="info-value">26° / 19°</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">☔ 天气</span>
+        <span class="info-value">梅雨 · 备伞</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">💴 汇率</span>
+        <span class="info-value">1 USD ≈ 159 JPY</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">📞 紧急</span>
+        <span class="info-value">110 / 119</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 出发寄语 -->
+  <section class="quote-card">
+    <p class="quote-text">「道がつづら折りになって、<br>いよいよ天城峠に近づいたと思う頃。」</p>
+    <p class="quote-translation">道路盘旋曲折·<br>眼看就要接近天城岭了</p>
+    <p class="quote-author">川端康成《伊豆の踊子》</p>
+  </section>
+
+  </aside><!-- 左栏 END -->
+
+  <!-- 右栏：详情 -->
+  <main class="col-right">
+
+  <!-- 航班卡 -->
+  <section class="flight-card" id="flight">
+    <div class="flight-header">
+      <div class="flight-airline">
+        <span class="flight-icon">✈️</span>
+        <div>
+          <div class="flight-name">DELTA AIR LINES</div>
+          <div class="flight-number">DL 167 · NONSTOP</div>
+        </div>
+      </div>
+      <div class="flight-seat">
+        <div class="flight-seat-label">SEAT</div>
+        <div class="flight-seat-value">40E · 40F</div>
+      </div>
+    </div>
+
+    <div class="flight-route">
+      <div class="flight-endpoint">
+        <div class="flight-code">SEA</div>
+        <div class="flight-time">11:55</div>
+        <div class="flight-date">MON · JUN 15</div>
+        <div class="flight-city">Seattle Tacoma</div>
+      </div>
+      <div class="flight-arrow">
+        <div class="flight-duration">10h 25m</div>
+        <div class="flight-arrow-line"></div>
+        <div class="flight-duration">直飞</div>
+      </div>
+      <div class="flight-endpoint right">
+        <div class="flight-code">HND</div>
+        <div class="flight-time">14:20 <span style="font-size:11px;color:var(--ink-light);">+1</span></div>
+        <div class="flight-date">TUE · JUN 16</div>
+        <div class="flight-city">羽田 Terminal 3</div>
+      </div>
+    </div>
+
+    <div class="flight-meta">
+      <div class="flight-meta-item">
+        <div class="flight-meta-label">CABIN</div>
+        <div class="flight-meta-value">Main</div>
+      </div>
+      <div class="flight-meta-item">
+        <div class="flight-meta-label">DATE LINE</div>
+        <div class="flight-meta-value">跨日期线 +1</div>
+      </div>
+      <div class="flight-meta-item">
+        <div class="flight-meta-label">TIME ZONE</div>
+        <div class="flight-meta-value">PST → JST +16</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 1: 抵达入境 ===== -->
+  <section class="period flight" id="arrival">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🛬</span>
+        <span class="period-cn">抵达 · 入境</span>
+      </div>
+      <div class="period-en">ARRIVAL · IMMIGRATION</div>
+    </div>
+
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🛂</span>
+          <div>
+            <div class="transit-name">羽田 T3 入境流程</div>
+            <div class="transit-name-en">Haneda Airport Terminal 3</div>
+          </div>
+        </div>
+      </div>
+      <div class="transit-notes" style="padding-left:0;padding-top:0;border:none;">
+        <strong>提前办：</strong>Visit Japan Web 在线申报海关 + 入境表格 · 拿到二维码<br>
+        <strong>抵达后：</strong>下机 → 入境审查 → 取行李 → 海关 → 出口<br>
+        <strong>大概耗时：</strong>40 - 60 分钟（HND 比 NRT 快很多）
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 2: 都内换乘 ===== -->
+  <section class="period transit" id="transit">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🚉</span>
+        <span class="period-cn">都内换乘 · 东京站</span>
+      </div>
+      <div class="period-en">TOKYO STATION</div>
+    </div>
+
+    <!-- 单轨电车 -->
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚝</span>
+          <div>
+            <div class="transit-name">东京单轨电车</div>
+            <div class="transit-name-en">Tokyo Monorail · 空港快速</div>
+          </div>
+        </div>
+        <div class="transit-price">¥520<span class="sub">/ 人</span><span class="usd">≈ $3</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">15:18</div>
+          <div class="transit-stop-name">羽田 T3</div>
+        </div>
+        <div class="transit-mid">
+          <div class="arrow">→</div>
+          <div>13 min</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">15:31</div>
+          <div class="transit-stop-name">浜松町</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>IC 卡直接刷</strong>·Suica / Pasmo / Apple Pay 钱包里的都可<br>
+        浜松町下车 · 站内换乘 JR 山手线 · 5 分钟步行
+      </div>
+      <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B5%9C%E6%9D%BE%E7%94%BA%E9%A7%85&query_place_id=ChIJK3eSBcaLGGARscstL2SO9ug" target="_blank" rel="noopener">
+        <span class="pin">📍</span> Google 地图 · 浜松町站
+      </a>
+    </div>
+
+    <!-- 山手线 -->
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚆</span>
+          <div>
+            <div class="transit-name">JR 山手线</div>
+            <div class="transit-name-en">Yamanote Line · 内回り</div>
+          </div>
+        </div>
+        <div class="transit-price">¥160<span class="sub">/ 人</span><span class="usd">≈ $1</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">15:50</div>
+          <div class="transit-stop-name">浜松町</div>
+        </div>
+        <div class="transit-mid">
+          <div class="arrow">→</div>
+          <div>6 min</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">15:56</div>
+          <div class="transit-stop-name">東京</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>東京站</strong>到达后走丸の内中央口 · 然后转新干线乘换口
+      </div>
+      <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=東京站&query_place_id=ChIJC3Cf2PuLGGAROO00ukl8JwA" target="_blank" rel="noopener">
+        <span class="pin">📍</span> Google 地图 · 東京站
+      </a>
+    </div>
+
+    <div class="notice">
+      <span class="ico">💡</span>
+      <strong>东京站留 30 分钟</strong>·便利店买饮料 / 站弁 / 抹茶 KitKat 上车吃·别去太远·<strong>地下迷宫容易迷路</strong>·新干线乘换口直奔
+    </div>
+  </section>
+
+  <!-- ===== 时段 3: 新干线 + 伊豆 ===== -->
+  <section class="period transit" id="shinkansen" style="background: linear-gradient(180deg, var(--evening) 0%, var(--evening) 100%);">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">🚄</span>
+        <span class="period-cn">新干线 + 伊豆箱根线</span>
+      </div>
+      <div class="period-en">TOKAIDO · IZUHAKONE</div>
+    </div>
+
+    <!-- こだま -->
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚄</span>
+          <div>
+            <div class="transit-name">こだま 821 号</div>
+            <div class="transit-name-en">Kodama · 东海道新干线</div>
+          </div>
+        </div>
+        <div class="transit-price">¥4,710<span class="sub">/ 人</span><span class="usd">≈ $30</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">16:27</div>
+          <div class="transit-stop-name">東京</div>
+          <div class="transit-stop-platform">新干线 14-19 番</div>
+        </div>
+        <div class="transit-mid">
+          <div class="arrow">→</div>
+          <div>53 min</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">17:20</div>
+          <div class="transit-stop-name">三島</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>自由席</strong>·当天买即可 · 不用预约 · 1-3 号车厢自由席<br>
+        <strong>富士山</strong>·进入静冈段后右侧车窗 · 遇晴天可见<br>
+        <strong>替代班次</strong>·15:27 / 15:57 / 16:57 / 17:27 / 17:57 都有こだま
+      </div>
+      <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=三島站&query_place_id=ChIJx-WU34SaGWARnwBTFWSgWUM" target="_blank" rel="noopener">
+        <span class="pin">📍</span> Google 地图 · 三島站
+      </a>
+    </div>
+
+    <!-- 伊豆箱根 -->
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚞</span>
+          <div>
+            <div class="transit-name">伊豆箱根铁道</div>
+            <div class="transit-name-en">Izuhakone Sunzu Line · 修善寺行</div>
+          </div>
+        </div>
+        <div class="transit-price">¥510<span class="sub">/ 人</span><span class="usd">≈ $3</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">17:42</div>
+          <div class="transit-stop-name">三島</div>
+          <div class="transit-stop-platform">3 番线</div>
+        </div>
+        <div class="transit-mid">
+          <div class="arrow">→</div>
+          <div>35 min</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">18:17</div>
+          <div class="transit-stop-name">修善寺</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>三島换乘只 5 分钟</strong>·新干线下车快走南口 · 看「伊豆箱根」标识<br>
+        <strong>IC 卡可刷</strong>·Suica / Pasmo · 不需换票
+      </div>
+      <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=修善寺站&query_place_id=ChIJn0gjVaXsGWAR9NeShIGbWbg" target="_blank" rel="noopener">
+        <span class="pin">📍</span> Google 地图 · 修善寺站
+      </a>
+    </div>
+
+    <!-- Taxi -->
+    <div class="transit-card">
+      <div class="transit-head">
+        <div class="transit-type">
+          <span class="transit-icon">🚕</span>
+          <div>
+            <div class="transit-name">Taxi · 修善寺 → 鬼之栖</div>
+            <div class="transit-name-en">Shuzenji Sta. → Oninosumika</div>
+          </div>
+        </div>
+        <div class="transit-price">¥1,500<span class="sub">大约</span><span class="usd">≈ $9</span></div>
+      </div>
+      <div class="transit-route">
+        <div class="transit-stop">
+          <div class="transit-stop-time">18:25</div>
+          <div class="transit-stop-name">修善寺站</div>
+        </div>
+        <div class="transit-mid">
+          <div class="arrow">→</div>
+          <div>10 min</div>
+        </div>
+        <div class="transit-stop">
+          <div class="transit-stop-time">18:35</div>
+          <div class="transit-stop-name">鬼之栖</div>
+        </div>
+      </div>
+      <div class="transit-notes">
+        <strong>只收现金</strong>·提前在 ATM 取一些日元 · 备 ¥3,000 - 5,000 零钱<br>
+        车站出口右手就有出租车候车点
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 时段 4: 鬼之栖晚餐 ===== -->
+  <section class="period arrival" id="oninosumika">
+    <div class="period-header">
+      <div class="period-top">
+        <span class="period-icon">♨️</span>
+        <span class="period-cn">鬼之栖 · 怀石晚餐</span>
+      </div>
+      <div class="period-en">ONINOSUMIKA · KAISEKI</div>
+    </div>
+
+    <!-- 入住 -->
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">18:35</div>
+          <div class="stop-time-dur">CHECK-IN</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">RYOKAN · 离れ宿</div>
+          <div class="stop-name">修善寺離れ宿 鬼之栖</div>
+          <div class="stop-name-en">Shuzenji Hanare-yado Oninosumika</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          一晚一组的<strong>全离れ式独栋温泉旅馆</strong>·17 栋客室分散在桂川旁庭院里。<br>
+          每栋都有<strong>私汤温泉</strong>·24 小时随泡 · 桧木浴槽 / 露天石风吕。
+        </p>
+        <div class="stop-info">
+          <span class="info-chip">📞 <strong>0558-79-3751</strong></span>
+          <span class="info-chip">♨️ 私汤 24h</span>
+          <span class="info-chip">🍱 一泊二食</span>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=修善寺離れ宿+鬼の栖" target="_blank">
+          <span class="pin">📍</span> Google 地图
+        </a>
+        <div class="notice">
+          <span class="ico">🛂</span>
+          <strong>抵达前</strong>·建议从修善寺站打电话告知旅馆<strong>预计到达时间 18:35</strong>·并预约 <strong>19:00 怀石晚餐</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 怀石晚餐 -->
+    <div class="stop">
+      <div class="stop-top">
+        <div class="stop-time">
+          <div class="stop-time-hr">19:00</div>
+          <div class="stop-time-dur">KAISEKI</div>
+        </div>
+        <div class="stop-divider"></div>
+        <div class="stop-titles">
+          <div class="stop-type-mini">DINNER · 本格怀石</div>
+          <div class="stop-name">鬼之栖怀石 · 初夏のお献立</div>
+          <div class="stop-name-en">Early Summer Kaiseki · June</div>
+        </div>
+      </div>
+      <div class="stop-body">
+        <p class="stop-desc">
+          料理长<strong>中野克俊</strong>主理 · 国内当令食材为本 · 6 月主题<strong>「初夏」</strong>。<br>
+          静冈和牛 · 伊豆近海鱼介 · 季节山菜 · 一品品按时间送上 · <strong>慢慢吃 90 - 120 分钟</strong>。
+        </p>
+        <div class="stop-info">
+          <span class="info-chip">⏱ 90 - 120 min</span>
+          <span class="info-chip">🥢 包餐内</span>
+          <span class="info-chip">🍶 清酒可单点</span>
+          <span class="info-chip">⚠️ 不接受过敏调整</span>
+        </div>
+
+        <div class="menu-card">
+          <div class="menu-title">6 月初夏のお献立 · 参考</div>
+          <div class="menu-en">EARLY SUMMER KAISEKI · SAMPLE</div>
+          <ul class="menu-list">
+            <li><span class="jp">先付</span><span>季节凉前菜 · 新緑をイメージした</span></li>
+            <li><span class="jp">椀物</span><span>清汤 · 旬の鱼介 · 出汁を効かせて</span></li>
+            <li><span class="jp">向付</span><span>刺身 · 伊豆当日真鯛 / 金目鯛 / 鲍鱼</span></li>
+            <li><span class="jp">八寸</span><span>八寸方盘 · 山海拼盘 · 初夏 8 品</span></li>
+            <li><span class="jp">焼物</span><span>烤物 · 鲇魚塩烧（6 月解禁旬味）</span></li>
+            <li><span class="jp">煮物</span><span>炊合 · 旬野菜 + 静冈和牛炊合</span></li>
+            <li><span class="jp">食事</span><span>土锅米饭 + 香之物 + 赤出汁</span></li>
+            <li><span class="jp">水菓子</span><span>季节果物 + 自家制和菓子</span></li>
+          </ul>
+        </div>
+
+        <div class="notice" style="margin-top:14px;">
+          <span class="ico">🍶</span>
+          <strong>清酒推荐</strong>静冈本地酒「磯自慢」「初亀」清爽辛口·配鱼介合·一壶 ¥1,500 - 3,000
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section class="tips-section">
+    <div class="tips-title">✨ 今日 Tips</div>
+    <div class="tips-en">DAY 1 TIPS</div>
+
+    <div class="tip-item">
+      <span class="tip-emoji">🛂</span>
+      <div class="tip-content">
+        <strong>Visit Japan Web</strong>提前在线办海关申报·拿到二维码截图存手机·入境时直接扫码·不用现场填表
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">💴</span>
+      <div class="tip-content">
+        <strong>现金准备</strong>修善寺 Taxi 只收现金·HND 出关后 ATM 取 ¥20,000 - 30,000·小店 ¥10,000 不好找零
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">📱</span>
+      <div class="tip-content">
+        <strong>IC 卡</strong>Suica / Pasmo 提前在 iPhone 钱包加好·单轨 / 山手 / 伊豆箱根全部 IC 直刷·不用买票
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">🎫</span>
+      <div class="tip-content">
+        <strong>こだま 自由席</strong>当天东京站新干线乘换口买就行·不预约·1-3 号车厢上车·周二下午基本随便坐
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">🧳</span>
+      <div class="tip-content">
+        <strong>大件行李</strong>飞机大箱子直接拖到鬼之栖·明天上午用ヤマト宅急便寄到 Okura·当天晚到
+      </div>
+    </div>
+    <div class="tip-item">
+      <span class="tip-emoji">😴</span>
+      <div class="tip-content">
+        <strong>时差</strong>SEA → 东京 +16 小时·飞机上尽量浅睡 4 小时·到酒店泡温泉 + 怀石后 22 点睡·明早醒来体感正常
+      </div>
+    </div>
+  </section>
+
+  </main><!-- 右栏 END -->
+
+  </div><!-- 双栏 layout END -->
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a class="prev" href="prep.html">
+      <span class="arrow">←</span>
+      <div>
+        <div class="label">PREV</div>
+        <div class="title-link">临行准备</div>
+      </div>
+    </a>
+    <a class="next" href="day2.html">
+      <div style="text-align:right;">
+        <div class="label">NEXT</div>
+        <div class="title-link">Day 2 · 修善寺</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="footer">— Tokyo · June 2026 —</div>
+
+</div>
+</div>
+<script>
+  // 时间轴点击 · 拦截默认行为·改为 scrollIntoView (避免 iOS Safari 弹窗)
+  document.querySelectorAll('a.timeline-row[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var targetId = this.getAttribute('href').substring(1);
+      var target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
