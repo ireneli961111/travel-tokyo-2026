@@ -845,16 +845,30 @@
     html, body { overflow: visible; }
     body {
       padding: 0;
-      background: var(--bg-soft);
+      background: 
+        linear-gradient(180deg, var(--bg-soft) 0%, #ede4d3 60%, var(--bg-soft) 100%);
+      position: relative;
     }
+    /* 两侧大色块装饰 · 让"空"变成"留白美" */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background: 
-        radial-gradient(circle at 10% 30%, rgba(122, 153, 168, 0.10), transparent 35%),
-        radial-gradient(circle at 90% 70%, rgba(122, 153, 168, 0.10), transparent 35%),
-        radial-gradient(circle at 50% 95%, rgba(168, 152, 120, 0.06), transparent 50%);
+        radial-gradient(ellipse 600px 800px at 0% 25%, rgba(184, 125, 125, 0.18), transparent 70%),
+        radial-gradient(ellipse 600px 800px at 100% 75%, rgba(184, 125, 125, 0.18), transparent 70%),
+        radial-gradient(circle 500px at 50% 100%, rgba(168, 149, 120, 0.10), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 加一层细微的纹理装饰 */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 400px 500px at 15% 80%, rgba(168, 133, 153, 0.10), transparent 60%),
+        radial-gradient(ellipse 400px 500px at 85% 20%, rgba(168, 149, 120, 0.08), transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -865,6 +879,7 @@
       position: relative;
       z-index: 1;
       overflow: visible;
+      box-shadow: 0 0 80px rgba(120, 90, 70, 0.06);
     }
     .container { 
       max-width: 100%;
