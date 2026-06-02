@@ -880,258 +880,63 @@
   }
 
   /* ===== 大宽屏 (iPad横屏 / 桌面) · HERO + 双栏 ===== */
-  @media (min-width: 900px) {
-    html { font-size: 16px; }
-    html, body { overflow: visible; }
-    body {
-      padding: 0;
-      background: 
-        linear-gradient(180deg, var(--bg-soft) 0%, #ede4d3 60%, var(--bg-soft) 100%);
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: 
-        radial-gradient(ellipse 600px 800px at 0% 25%, rgba(107, 138, 114, 0.18), transparent 70%),
-        radial-gradient(ellipse 600px 800px at 100% 75%, rgba(107, 138, 114, 0.18), transparent 70%),
-        radial-gradient(circle 500px at 50% 100%, rgba(107, 138, 114, 0.10), transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: 
-        radial-gradient(ellipse 400px 500px at 15% 80%, rgba(122, 153, 168, 0.10), transparent 60%),
-        radial-gradient(ellipse 400px 500px at 85% 20%, rgba(184, 125, 125, 0.08), transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .page {
-      background: transparent;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-      overflow: visible;
-      box-shadow: 0 0 80px rgba(120, 90, 70, 0.06);
-    }
-    .container {
-      max-width: 100%;
-      background: transparent;
-      padding: 0;
-    }
-
-    /* 顶部导航 */
-    .top-nav {
-      backdrop-filter: blur(12px);
-      background: rgba(245, 241, 236, 0.85);
-      padding: 16px 40px;
-      border-radius: 0;
-    }
-
-    /* ===== 紧凑工具书头部（不再是大 hero）===== */
-    .cover {
-      margin: 0;
-      padding: 48px 40px 32px;
-      border-radius: 0;
-      position: relative;
-      overflow: hidden;
-      background: transparent;
-    }
-    .cover-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    .cover-meta { 
-      margin-bottom: 16px; 
-      max-width: 800px;
-      justify-content: flex-start;
-      gap: 12px;
-    }
-    .cover-date { font-size: 12px; letter-spacing: 0.2em; }
-    .cover-day { font-size: 10px; padding: 4px 12px; letter-spacing: 0.25em; }
-    .cover-title-cn { 
-      font-size: 40px; 
-      line-height: 1.15;
-      margin-bottom: 8px;
-      max-width: 800px;
-    }
-    .cover-title-en { 
-      font-size: 15px; 
-      margin-bottom: 18px;
-      max-width: 800px;
-      letter-spacing: 0.06em;
-    }
-    .cover-desc { 
-      font-size: 13.5px; 
-      line-height: 1.75;
-      max-width: 640px;
-      margin-bottom: 0;
-      color: var(--ink-soft);
-    }
-    .cover-tags { display: none; }
-
-    /* ===== 双栏内容：左侧 sticky 索引 + 右侧滚动 ===== */
-    .content-wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 40px 60px;
-      display: flex;
-      flex-direction: row;
-      gap: 40px;
-      align-items: flex-start;
-    }
-
-    /* 左侧 sticky 索引（quick-nav 改造）*/
-    .quick-nav {
-      position: sticky;
-      top: 80px;
-      margin: 0;
-      padding: 18px 16px;
-      background: var(--card);
-      border: 1px solid rgba(107, 138, 114, 0.16);
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(120, 90, 70, 0.05);
-      flex: 0 0 220px;
-      align-self: flex-start;
-    }
-    .quick-nav-title {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      margin-bottom: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line-light);
-      text-align: left;
-      padding-left: 4px;
-    }
-    .quick-nav-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .quick-nav-grid a {
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 10px;
-      padding: 8px 10px;
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      text-align: left;
-    }
-    .quick-nav-grid a:hover {
-      background: rgba(107, 138, 114, 0.08);
-    }
-    .quick-nav-grid .ico {
-      font-size: 15px;
-      width: 22px;
-      text-align: center;
-    }
-    .quick-nav-grid .lbl {
-      font-size: 12.5px;
-      color: var(--ink);
-      line-height: 1.3;
-      text-align: left;
-    }
-
-    /* 右侧主内容区 */
-    .phrase-main {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-    .phrase-main > .period,
-    .phrase-main > .phrase-card,
-    .phrase-main > .quote-card,
-    .phrase-main > .info-card,
-    .phrase-main > .show-card {
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    /* 章节标题更紧凑 */
-    .period {
-      padding: 20px 0 8px;
-      background: transparent;
-    }
-    .period-cn { font-size: 18px; }
-    .period-en { font-size: 11px; padding-left: 24px; }
-    
-    /* 第一个 period 不要太顶 */
-    .content-wrap > .period:first-child {
-      padding-top: 8px;
-    }
-
-    /* 底部导航 + footer 全宽 */
-    .bottom-nav {
-      max-width: 980px;
-      margin: 32px auto 0;
-      padding: 0 40px;
-    }
-    .footer {
-      max-width: 980px;
-      margin: 24px auto 32px;
-    }
-  }
-
-
-
   /* ===== Phrase-specific styles ===== */
   
-  /* 快速导览 */
-  .quick-nav {
-    margin: 24px 16px 24px;
-    padding: 16px;
-    background: linear-gradient(135deg, rgba(107, 138, 114, 0.10), rgba(107, 138, 114, 0.04));
-    border: 1px solid rgba(107, 138, 114, 0.18);
-    border-radius: 14px;
-  }
-  .quick-nav-title {
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    font-weight: 700;
-    text-align: center;
-  }
-  .quick-nav-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .quick-nav-grid a {
+  /* 左栏分类导览·timeline-card 内的链接列表 */
+  .phrase-jump-list {
     display: flex;
     flex-direction: column;
+    gap: 2px;
+  }
+  .phrase-jump-list a {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 10px 6px;
-    background: var(--card);
-    border: 1px solid rgba(107, 138, 114, 0.18);
-    border-radius: 10px;
-    color: var(--ink);
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
     text-decoration: none;
-    transition: all 0.2s;
+    color: var(--ink);
+    transition: background 0.15s;
   }
-  .quick-nav-grid a:active {
-    background: rgba(107, 138, 114, 0.15);
-    transform: scale(0.97);
+  .phrase-jump-list a:hover,
+  .phrase-jump-list a:active {
+    background: rgba(107, 138, 114, 0.12);
   }
-  .quick-nav-grid .ico {
-    font-size: 20px;
-    line-height: 1;
-  }
-  .quick-nav-grid .lbl {
-    font-size: 11px;
-    color: var(--ink-soft);
-    line-height: 1.2;
+  .phrase-jump-list .ico {
+    font-size: 16px;
+    width: 22px;
     text-align: center;
+    flex-shrink: 0;
+  }
+  .phrase-jump-list .lbl {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* 左栏装饰寄语卡 */
+  .phrase-quote-side {
+    margin: 16px 16px 16px;
+    padding: 22px 20px;
+    background: rgba(107, 138, 114, 0.10);
+    border: 1px dashed rgba(107, 138, 114, 0.30);
+    border-radius: 14px;
+    font-family: 'Shippori Mincho', 'Noto Serif SC', serif;
+    font-size: 15px;
+    color: var(--accent);
+    line-height: 1.8;
+    text-align: center;
+    letter-spacing: 0.08em;
+  }
+  .phrase-quote-side .phrase-quote-sub {
+    display: block;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(107, 138, 114, 0.18);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
   }
   
   .phrase-card {
@@ -1240,6 +1045,162 @@
     margin-top: 2px;
   }
 
+  @media (min-width: 900px) {
+    html { font-size: 16px; }
+    html, body { overflow: visible; }
+    body {
+      padding: 0;
+      background: 
+        linear-gradient(180deg, var(--bg-soft) 0%, #ede4d3 60%, var(--bg-soft) 100%);
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 600px 800px at 0% 25%, rgba(107, 138, 114, 0.18), transparent 70%),
+        radial-gradient(ellipse 600px 800px at 100% 75%, rgba(107, 138, 114, 0.18), transparent 70%),
+        radial-gradient(circle 500px at 50% 100%, rgba(107, 138, 114, 0.10), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 400px 500px at 15% 80%, rgba(122, 153, 168, 0.10), transparent 60%),
+        radial-gradient(ellipse 400px 500px at 85% 20%, rgba(184, 125, 125, 0.08), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page {
+      background: transparent;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      box-shadow: 0 0 80px rgba(120, 90, 70, 0.06);
+    }
+    .container {
+      max-width: 100%;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* 顶部导航 */
+    .top-nav {
+      backdrop-filter: blur(12px);
+      background: rgba(245, 241, 236, 0.85);
+      padding: 16px 40px;
+      border-radius: 0;
+    }
+
+    /* ===== 紧凑工具书头部（不再是大 hero）===== */
+    .cover {
+      margin: 0;
+      padding: 48px 40px 32px;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+    .cover-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .cover-meta { 
+      margin-bottom: 16px; 
+      max-width: 800px;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+    .cover-date { font-size: 12px; letter-spacing: 0.2em; }
+    .cover-day { font-size: 10px; padding: 4px 12px; letter-spacing: 0.25em; }
+    .cover-title-cn { 
+      font-size: 40px; 
+      line-height: 1.15;
+      margin-bottom: 8px;
+      max-width: 800px;
+    }
+    .cover-title-en { 
+      font-size: 15px; 
+      margin-bottom: 18px;
+      max-width: 800px;
+      letter-spacing: 0.06em;
+    }
+    .cover-desc { 
+      font-size: 13.5px; 
+      line-height: 1.75;
+      max-width: 640px;
+      margin-bottom: 0;
+      color: var(--ink-soft);
+    }
+    .cover-tags { display: none; }
+
+    /* ===== 双栏 grid (复用 prep 模板) ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 36px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 40px 0;
+    }
+    .col-left, .col-right { display: block; }
+    
+    /* 左栏 sticky */
+    .col-left {
+      position: sticky;
+      top: 88px;
+    }
+    .col-left .timeline-card {
+      margin: 0;
+    }
+    .phrase-quote-side {
+      margin: 16px 0 0;
+    }
+
+    /* 右栏 */
+    .col-right > * {
+      max-width: none;
+    }
+
+    /* 右栏第一个 period 不要太顶 */
+    .col-right > .period:first-child {
+      padding-top: 8px;
+    }
+
+    /* 底部导航 + footer 全宽 */
+    .bottom-nav {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 40px;
+      gap: 16px;
+    }
+    .bottom-nav a {
+      padding: 12px 18px;
+      background: rgba(107, 138, 114, 0.08);
+      border: 1px solid rgba(107, 138, 114, 0.18);
+      border-radius: 10px;
+      font-size: 12.5px;
+    }
+    .bottom-nav a:hover {
+      background: rgba(107, 138, 114, 0.14);
+    }
+    .footer {
+      max-width: 1200px;
+      margin: 24px auto 32px;
+    }
+  }
+
+
+
 </style>
 </head>
 <body>
@@ -1277,12 +1238,14 @@
   </header>
 
   <!-- 主内容 -->
-  <div class="content-wrap">
+  <div class="layout">
 
-    <!-- 快速导览 -->
-    <div class="quick-nav">
-      <div class="quick-nav-title">QUICK JUMP · 快速跳转</div>
-      <div class="quick-nav-grid">
+  <!-- 左栏：分类导览 -->
+  <aside class="col-left">
+    <section class="timeline-card">
+      <div class="timeline-title">📑 分类导览</div>
+      <div class="timeline-subtitle">QUICK JUMP</div>
+      <div class="phrase-jump-list">
         <a href="#basics"><span class="ico">あ</span><span class="lbl">基础发音</span></a>
         <a href="#basic-politeness"><span class="ico">🙇</span><span class="lbl">基础礼貌</span></a>
         <a href="#toilet"><span class="ico">🚻</span><span class="lbl">找厕所</span></a>
@@ -1295,9 +1258,17 @@
         <a href="#emergency"><span class="ico">🆘</span><span class="lbl">紧急</span></a>
         <a href="#show-cards"><span class="ico">📋</span><span class="lbl">出示卡</span></a>
       </div>
-    </div>
+    </section>
 
-    <div class="phrase-main">
+    <!-- 装饰寄语卡片 -->
+    <div class="phrase-quote-side">
+      「ことばは<br>こころの架け橋」
+      <span class="phrase-quote-sub">语言是心的桥</span>
+    </div>
+  </aside>
+
+  <!-- 右栏：所有话术 -->
+  <main class="col-right">
 
     <!-- ===== 0. 基础假名速记 ===== -->
     <div class="period" id="basics">
@@ -1821,15 +1792,18 @@
       </div>
     </div>
 
-    </div><!-- /phrase-main -->
+  </main><!-- /col-right -->
 
-  </div>
+  </div><!-- /layout -->
 
   <!-- 底部导航 -->
   <div class="bottom-nav">
     <a href="day6.html" class="prev">← Day 6 · 青山告别</a>
     <a href="shopping.html" class="next">购物清单 →</a>
   </div>
+
+  <!-- Footer -->
+  <div class="footer">— Tokyo · June 2026 —</div>
 
 </div>
 </div>
