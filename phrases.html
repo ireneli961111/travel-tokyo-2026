@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5f1ec">
+<title>日语会话 · Cheatsheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Serif+Display&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f1ec;
+    --bg-soft: #ebe5dd;
+    --bg-warm: #efe9de;
+    --card: #fefdfa;
+    --ink: #3a3530;
+    --ink-soft: #6b625a;
+    --ink-light: #9a9089;
+    --accent: #6b8a72;            /* 日语 · 茶绿色 */
+    --accent-soft: #93ad96;
+    --accent-bg: #dde8de;
+    --line: #e0d8cb;
+    --line-light: #ece5d8;
+    --warn: #c89c8a;
+    --warn-bg: #f4e4dc;
+
+    --cover-bg-1: #aac0ac;
+    --cover-bg-2: #c8d8ca;
+    --morning: #efe7d5;
+    --noon: #ede4d1;
+    --evening: #e4d8c0;
+    --night: #d6c8aa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  html, body { background: var(--bg); min-height: 100vh; }
+  
+  /* 点击导览跳转·上方留出缓冲空间 */
+  #basics, #basic-politeness, #toilet, #restaurant-basic, #chef, #shopping, #transport, #hotel, #otaku, #emergency, #show-cards {
+    scroll-margin-top: 80px;
+  }
+  body {
+    color: var(--ink);
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 40px;
+  }
+  .page { background: var(--bg); min-height: 100vh; overflow-x: hidden; }
+  .container { max-width: 480px; margin: 0 auto; background: var(--bg); }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-light);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  .top-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .top-nav .home {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  /* ===== 封面 ===== */
+  .cover {
+    padding: 36px 24px 30px;
+    background: linear-gradient(180deg, var(--cover-bg-1) 0%, var(--cover-bg-2) 100%);
+  }
+  .cover-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .cover-date { font-family: 'DM Serif Display', serif; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.2em; }
+  .cover-day { font-size: 11px; color: var(--accent); letter-spacing: 0.3em; padding: 4px 12px; border: 1px solid var(--accent-soft); border-radius: 20px; background: rgba(255,255,255,0.5); }
+  .cover-title-cn { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1.2; margin-bottom: 6px; }
+  .cover-title-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 14px; color: var(--ink-soft); letter-spacing: 0.1em; margin-bottom: 20px; }
+  .cover-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 20px; }
+  .cover-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; color: var(--ink-soft); background: rgba(255,255,255,0.6); padding: 4px 11px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); }
+
+  /* ===== 航班卡 ===== */
+  .flight-card {
+    margin: 24px 16px 24px;
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 4px 16px rgba(120,90,70,0.06);
+    border: 1px solid var(--line-light);
+  }
+  .flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .flight-airline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flight-icon { font-size: 16px; }
+  .flight-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .flight-number {
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    font-family: 'DM Serif Display', serif;
+  }
+  .flight-seat {
+    text-align: right;
+  }
+  .flight-seat-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 2px;
+  }
+  .flight-seat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  
+  .flight-route {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .flight-endpoint {
+    text-align: center;
+  }
+  .flight-endpoint.right { text-align: center; }
+  .flight-code {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .flight-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .flight-date {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .flight-city {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .flight-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .flight-arrow-line {
+    width: 60px;
+    height: 1px;
+    background: var(--accent-soft);
+    position: relative;
+  }
+  .flight-arrow-line::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -3px;
+    width: 0; height: 0;
+    border-left: 6px solid var(--accent-soft);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+  }
+  .flight-duration {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    font-family: 'DM Serif Display', serif;
+  }
+  
+  .flight-meta {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    gap: 8px;
+    text-align: center;
+  }
+  .flight-meta-item {
+    flex: 1;
+  }
+  .flight-meta-label {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 3px;
+  }
+  .flight-meta-value {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* ===== 时间轴 ===== */
+  .timeline-card {
+    margin: 20px 16px 16px;
+    background: rgba(107, 138, 114, 0.10);
+    border: 1px solid rgba(107, 138, 114, 0.22);
+    border-radius: 16px;
+    padding: 22px 22px 24px;
+    box-shadow: 0 2px 12px rgba(120,90,70,0.04);
+  }
+
+  /* ===== Todo List ===== */
+  .todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .todo-item:hover {
+    background: rgba(107, 138, 114, 0.10);
+  }
+  .todo-check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(107, 138, 114, 0.4);
+    border-radius: 5px;
+    background: #fefdfa;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.15s;
+  }
+  .todo-check:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .todo-check:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fefdfa;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  /* 完成态: 整行淡化·不划线 */
+  .todo-item:has(.todo-check:checked) {
+    opacity: 0.5;
+    background: rgba(107, 138, 114, 0.06);
+  }
+  .todo-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    flex-shrink: 0;
+    color: #fefdfa;
+    background: var(--accent);
+  }
+  .todo-item.urgent .todo-badge { background: #c89c8a; }
+  .todo-badge.soon { background: #a89578; }
+  .todo-badge.later { background: rgba(107, 138, 114, 0.65); }
+  .todo-badge.done { background: #7a9876; }
+  .todo-text {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .todo-meta {
+    display: block;
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-top: 2px;
+  }
+
+  /* ===== 今日提醒卡 ===== */
+  .info-card {
+    margin: 0 16px 16px;
+    background: rgba(107, 138, 114, 0.13);
+    border: 1px solid rgba(107, 138, 114, 0.24);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 12px rgba(120,90,70,0.04);
+  }
+  .info-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .info-card-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(107, 138, 114, 0.18);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--ink-light); }
+  .info-value { 
+    color: var(--ink); 
+    font-weight: 500;
+    font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+  }
+
+  /* ===== 出发寄语卡 · 极简鉤括弧风 ===== */
+  .quote-card {
+    margin: 0 16px 14px;
+    background: rgba(107, 138, 114, 0.12);
+    border: 1px solid rgba(107, 138, 114, 0.22);
+    border-radius: 14px;
+    padding: 16px 18px;
+    text-align: left;
+    box-shadow: 0 2px 12px rgba(120,90,70,0.04);
+  }
+  .quote-mark { display: none; }
+  .quote-text {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    letter-spacing: 0.02em;
+  }
+  .quote-text strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .quote-translation {
+    font-size: 11.5px;
+    color: #9a9089;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  .quote-author {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    font-weight: 500;
+  }
+  .quote-author::before { content: '— '; }
+  .timeline-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .timeline-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 4px;
+  }
+  .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 4px 10px;
+    margin: 0 -10px;
+    position: relative;
+    min-height: 36px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  a.timeline-row:hover {
+    background: var(--bg-warm);
+  }
+  a.timeline-row:active {
+    background: var(--bg-soft);
+  }
+  .timeline-time {
+    flex-shrink: 0;
+    width: 52px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    padding-top: 8px;
+  }
+  .timeline-dot-wrap {
+    position: relative;
+    width: 14px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .timeline-dot-wrap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -4px;
+    bottom: -4px;
+    width: 1px;
+    background: var(--accent-soft);
+    opacity: 0.5;
+  }
+  .timeline-row:first-child .timeline-dot-wrap::before {
+    top: 11px;
+  }
+  .timeline-row:last-child .timeline-dot-wrap::before {
+    bottom: calc(100% - 11px);
+  }
+  .timeline-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .timeline-dot.hollow {
+    background: var(--card);
+    border: 1.5px solid var(--accent-soft);
+  }
+  .timeline-content {
+    flex: 1;
+    padding: 8px 0 12px;
+    min-width: 0;
+  }
+  .timeline-action {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .timeline-action .sub {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-left: 6px;
+  }
+  .timeline-row.key .timeline-action {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .timeline-row.key .timeline-dot {
+    width: 9px;
+    height: 9px;
+    top: 10px;
+  }
+
+  /* ===== 时段 ===== */
+  .period { 
+    padding: 28px 16px 8px;
+    position: relative;
+  }
+  .period.flight { background: linear-gradient(180deg, var(--morning) 0%, var(--noon) 100%); }
+  .period.transit { background: linear-gradient(180deg, var(--noon) 0%, var(--evening) 100%); }
+  .period.arrival { background: linear-gradient(180deg, var(--evening) 0%, var(--night) 100%); }
+  
+  .period-header { 
+    margin: 0 4px 16px; 
+    padding-top: 4px;
+  }
+  .period-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .period-icon { font-size: 18px; opacity: 0.85; }
+  .period-cn { 
+    font-family: 'Noto Serif SC', serif; 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: var(--ink); 
+  }
+  .period-en { 
+    font-family: 'DM Serif Display', serif; 
+    font-style: italic; 
+    font-size: 11px; 
+    color: var(--ink-light); 
+    letter-spacing: 0.18em; 
+    padding-left: 28px;
+  }
+
+  /* ===== 交通票卡（每段交通一张）===== */
+  .transit-card {
+    background: var(--card);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(120,90,70,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .transit-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px;
+    bottom: 18px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+  .transit-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-left: 8px;
+  }
+  .transit-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .transit-icon { font-size: 16px; }
+  .transit-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .transit-name-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 1px;
+    letter-spacing: 0.1em;
+  }
+  .transit-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .transit-price .sub {
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-left: 3px;
+  }
+  
+  .transit-route {
+    padding-left: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .transit-stop {
+    text-align: center;
+  }
+  .transit-stop-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .transit-stop-name {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .transit-stop-platform {
+    font-size: 9px;
+    color: var(--ink-light);
+    margin-top: 1px;
+  }
+  .transit-mid {
+    font-family: 'DM Serif Display', serif;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.05em;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .transit-mid .arrow {
+    color: var(--accent-soft);
+    font-size: 14px;
+  }
+  
+  .transit-notes {
+    padding-left: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .transit-notes strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  
+  /* ===== 站点（鬼之栖）===== */
+  .stop { background: var(--card); border-radius: 16px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(120,90,70,0.04); }
+  .stop-top { padding: 18px 18px 14px; display: flex; align-items: flex-start; gap: 14px; }
+  .stop-time { flex-shrink: 0; text-align: center; padding-top: 2px; min-width: 50px; }
+  .stop-time-hr { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--accent); line-height: 1; }
+  .stop-time-dur { font-size: 10px; color: var(--ink-light); margin-top: 4px; letter-spacing: 0.05em; }
+  .stop-divider { width: 1px; background: var(--line); align-self: stretch; }
+  .stop-titles { flex: 1; min-width: 0; }
+  .stop-type-mini { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 3px; }
+  .stop-name { font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 2px; }
+  .stop-name-en { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 11px; color: var(--ink-light); line-height: 1.4; }
+
+  .stop-body { padding: 14px 18px 16px; }
+  .stop-desc { font-size: 13px; line-height: 1.85; color: var(--ink-soft); margin-bottom: 12px; }
+  .stop-desc strong { color: var(--ink); font-weight: 500; }
+  
+  .stop-info { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .info-chip {
+    font-size: 11px;
+    color: var(--ink-soft);
+    background: rgba(107, 138, 114, 0.12);
+    padding: 5px 11px;
+    border-radius: 12px;
+    border: 1px solid rgba(107, 138, 114, 0.22);
+  }
+  .info-chip strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 2px;
+  }
+  .info-chip .usd {
+    color: var(--ink-light);
+    margin-left: 4px;
+    font-size: 10px;
+  }
+  
+  .map-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 12px;
+    padding: 8px 0;
+  }
+  .map-link .pin { color: var(--accent); }
+  
+  /* ===== 怀石菜单 ===== */
+  .menu-card {
+    background: rgba(107, 138, 114, 0.10);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 12px;
+    margin-bottom: 14px;
+    border: 1px dashed rgba(107, 138, 114, 0.30);
+  }
+  .menu-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .menu-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+  }
+  .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .menu-list li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .menu-list li:not(:last-child) {
+    border-bottom: 1px dotted var(--line);
+  }
+  .menu-list .jp {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ===== Notice ===== */
+  .notice {
+    background: rgba(107, 138, 114, 0.13);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.65;
+    border-left: 3px solid rgba(107, 138, 114, 0.55);
+  }
+  .notice strong { font-weight: 600; }
+  .notice .ico { color: rgba(107, 138, 114, 0.85); margin-right: 4px; }
+
+  /* ===== Tips 区 ===== */
+  .tips-section {
+    margin: 24px 16px 0;
+    padding: 22px 20px;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(120,90,70,0.04);
+  }
+  .tips-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .tips-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+  }
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-light);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-emoji {
+    flex-shrink: 0;
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+  }
+  .tip-content strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  /* ===== 底部导航 ===== */
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 30px 16px 0;
+  }
+  .bottom-nav a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    border: 1px solid var(--line);
+    transition: all 0.2s;
+  }
+  .bottom-nav a:active {
+    background: var(--bg-soft);
+    transform: scale(0.99);
+  }
+  .bottom-nav .prev { justify-content: flex-start; }
+  .bottom-nav .next { justify-content: flex-end; }
+  .bottom-nav .label {
+    font-size: 10px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+  }
+  .bottom-nav .title-link {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+  }
+  .bottom-nav .arrow { color: var(--accent); }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.2em;
+  }
+
+  /* ===== 双栏布局 (默认手机端为单栏) ===== */
+  .layout { display: block; }
+  .col-left, .col-right { display: contents; }
+  .cover-inner { /* 手机端透明 */ }
+
+  /* ===== 平板竖屏 (768 - 899px) · 单栏放大 ===== */
+  @media (min-width: 768px) and (max-width: 899px) {
+    html { font-size: 16px; }
+    .container { 
+      max-width: 600px; 
+    }
+    body {
+      background: linear-gradient(180deg, var(--bg) 0%, #ede4d3 100%);
+    }
+  }
+
+  /* ===== 大宽屏 (iPad横屏 / 桌面) · HERO + 双栏 ===== */
+  @media (min-width: 900px) {
+    html { font-size: 16px; }
+    html, body { overflow: visible; }
+    body {
+      padding: 0;
+      background: 
+        linear-gradient(180deg, var(--bg-soft) 0%, #ede4d3 60%, var(--bg-soft) 100%);
+      position: relative;
+    }
+    /* 两侧大色块装饰 · 让"空"变成"留白美" */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 600px 800px at 0% 25%, rgba(107, 138, 114, 0.18), transparent 70%),
+        radial-gradient(ellipse 600px 800px at 100% 75%, rgba(107, 138, 114, 0.18), transparent 70%),
+        radial-gradient(circle 500px at 50% 100%, rgba(107, 138, 114, 0.10), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 加一层细微的纹理装饰 */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 400px 500px at 15% 80%, rgba(122, 153, 168, 0.10), transparent 60%),
+        radial-gradient(ellipse 400px 500px at 85% 20%, rgba(184, 125, 125, 0.08), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page {
+      background: transparent;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      box-shadow: 0 0 80px rgba(120, 90, 70, 0.06);
+    }
+    .container { 
+      max-width: 100%;
+      background: transparent;
+      padding: 0;
+    }
+    
+    /* 顶部导航 */
+    .top-nav {
+      backdrop-filter: blur(12px);
+      background: rgba(245, 241, 236, 0.85);
+      padding: 18px 40px;
+      border-radius: 0;
+    }
+
+    /* ===== HERO 全宽 ===== */
+    .cover {
+      margin: 0;
+      padding: 80px 40px 70px;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 60%);
+      pointer-events: none;
+    }
+    .cover-meta { 
+      margin-bottom: 32px; 
+      max-width: 800px;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+    .cover-date { font-size: 14px; }
+    .cover-day { font-size: 12px; padding: 5px 14px; }
+    .cover-title-cn { 
+      font-size: 64px; 
+      line-height: 1.05;
+      margin-bottom: 14px;
+      max-width: 800px;
+    }
+    .cover-title-en { 
+      font-size: 18px; 
+      margin-bottom: 32px;
+      max-width: 800px;
+    }
+    .cover-desc { 
+      font-size: 15px; 
+      line-height: 1.85;
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+    .cover-tags { max-width: 800px; gap: 8px; }
+    .tag { font-size: 12px; padding: 6px 14px; }
+
+    /* ===== 双栏 grid ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 32px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 40px 0;
+    }
+    .col-left, .col-right { display: block; }
+    
+    /* 左栏：sticky 跟随滚动·只占内容高度 */
+    .col-left {
+      position: sticky;
+      top: 88px;
+    }
+    .col-left .timeline-card {
+      margin: 0;
+    }
+    .col-left .info-card {
+      margin: 16px 0 0;
+    }
+    .col-left .quote-card {
+      margin: 16px 0 0;
+    }
+
+    .timeline-card {
+      margin: 0;
+      border-radius: 18px;
+    }
+
+    /* ===== 右栏 ===== */
+    .col-right > * {
+      max-width: none;
+    }
+
+    /* 右栏第一个 (航班卡) margin 调整 */
+    .flight-card {
+      margin: 0 0 24px 0;
+    }
+    
+    /* 时段：右栏内的圆角卡片·不再全宽 */
+    .period {
+      margin: 0 0 16px 0;
+      padding: 32px 28px 16px;
+      border-radius: 18px;
+    }
+    
+    /* Tips */
+    .tips-section {
+      margin: 24px 0 0 0;
+    }
+
+    /* 底部导航 + footer 全宽 */
+    .bottom-nav {
+      max-width: 1200px;
+      margin: 50px auto 0;
+      padding: 0 40px;
+    }
+    .footer {
+      max-width: 1200px;
+      margin: 32px auto 32px;
+    }
+  }
+
+
+  /* ===== Phrase-specific styles ===== */
+  
+  /* 快速导览 */
+  .quick-nav {
+    margin: 24px 16px 24px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(107, 138, 114, 0.10), rgba(107, 138, 114, 0.04));
+    border: 1px solid rgba(107, 138, 114, 0.18);
+    border-radius: 14px;
+  }
+  .quick-nav-title {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .quick-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .quick-nav-grid a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 6px;
+    background: var(--card);
+    border: 1px solid rgba(107, 138, 114, 0.18);
+    border-radius: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .quick-nav-grid a:active {
+    background: rgba(107, 138, 114, 0.15);
+    transform: scale(0.97);
+  }
+  .quick-nav-grid .ico {
+    font-size: 20px;
+    line-height: 1;
+  }
+  .quick-nav-grid .lbl {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  .phrase-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin: 0 16px 10px;
+    border: 1px solid rgba(107, 138, 114, 0.15);
+    box-shadow: 0 1px 6px rgba(120,90,70,0.03);
+  }
+  .phrase-scene {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .phrase-jp {
+    font-family: 'Shippori Mincho', 'Noto Serif SC', serif;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .phrase-romaji {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .phrase-pinyin {
+    font-size: 11.5px;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .phrase-cn {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(107, 138, 114, 0.2);
+  }
+  .phrase-cn .tip {
+    color: var(--ink-light);
+    font-size: 11px;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .show-card {
+    background: linear-gradient(135deg, rgba(107, 138, 114, 0.10), rgba(107, 138, 114, 0.20));
+    border-radius: 14px;
+    padding: 18px;
+    margin: 0 16px 12px;
+    border: 1.5px dashed rgba(107, 138, 114, 0.35);
+  }
+  .show-card .show-label {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .show-card .show-jp {
+    font-family: 'Shippori Mincho', 'Noto Serif SC', serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .show-card .show-cn {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(107, 138, 114, 0.2);
+  }
+  .number-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .num-cell {
+    background: rgba(107, 138, 114, 0.08);
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+    border: 1px solid rgba(107, 138, 114, 0.15);
+  }
+  .num-cell .digit {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .num-cell .jp {
+    font-size: 10px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+<div class="container">
+
+  <!-- 顶部导航 -->
+  <div class="top-nav">
+    <a href="day6.html">← Day 6</a>
+    <a href="index.html" class="home">Tokyo 2026</a>
+    <a href="shopping.html">Shopping →</a>
+  </div>
+
+  <!-- 封面 -->
+  <div class="cover">
+    <div class="cover-tag">PHRASES · 日本語</div>
+    <div class="cover-cn">日语速查</div>
+    <div class="cover-en">Survival Japanese · Cheatsheet</div>
+    <div class="cover-desc">
+      不会日语没关系·这里是用得到的话术·按场景分类·每条带罗马音和中文谐音。<br>
+      手机长按可复制·必要时直接出示给店员。
+    </div>
+    <div class="tags-row">
+      <span class="tag">🍣 餐厅</span>
+      <span class="tag">🛍 购物</span>
+      <span class="tag">🚆 交通</span>
+      <span class="tag">🏨 酒店</span>
+    </div>
+  </div>
+
+  <!-- 主时间轴 -->
+  <div class="content-wrap">
+
+    <!-- 快速导览 -->
+    <div class="quick-nav">
+      <div class="quick-nav-title">QUICK JUMP · 快速跳转</div>
+      <div class="quick-nav-grid">
+        <a href="#basics"><span class="ico">あ</span><span class="lbl">基础发音</span></a>
+        <a href="#basic-politeness"><span class="ico">🙇</span><span class="lbl">基础礼貌</span></a>
+        <a href="#toilet"><span class="ico">🚻</span><span class="lbl">找厕所</span></a>
+        <a href="#restaurant-basic"><span class="ico">🍽</span><span class="lbl">餐厅点单</span></a>
+        <a href="#chef"><span class="ico">👨‍🍳</span><span class="lbl">和 chef 聊</span></a>
+        <a href="#shopping"><span class="ico">🛍</span><span class="lbl">购物</span></a>
+        <a href="#transport"><span class="ico">🚆</span><span class="lbl">交通</span></a>
+        <a href="#hotel"><span class="ico">🏨</span><span class="lbl">酒店</span></a>
+        <a href="#otaku"><span class="ico">🎮</span><span class="lbl">二次元</span></a>
+        <a href="#emergency"><span class="ico">🆘</span><span class="lbl">紧急</span></a>
+        <a href="#show-cards"><span class="ico">📋</span><span class="lbl">出示卡</span></a>
+      </div>
+    </div>
+
+    <!-- ===== 0. 基础假名速记 ===== -->
+    <div class="period" id="basics">
+      <span class="period-emoji">あ</span>
+      <span class="period-cn">基础发音</span>
+      <span class="period-en">Pronunciation</span>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        日语 5 个元音 → <strong>a / i / u / e / o</strong> = "啊 / 咦 / 乌 / 哎 / 哦"<br>
+        罗马音规则：罗马音<strong>怎么写就怎么念</strong>·没有像英语那样的重音变形。<br>
+        <strong>「ー」是长音</strong>·遇到要拖一拍（"Tōkyō" 念 "拖-喔-kyo-喔"·拖长）
+      </div>
+    </div>
+
+    <!-- 数字 1-10 -->
+    <div class="info-card">
+      <div class="info-card-title">📊 数字 1-10</div>
+      <div class="number-grid">
+        <div class="num-cell"><div class="digit">1</div><div class="jp">ichi 一</div></div>
+        <div class="num-cell"><div class="digit">2</div><div class="jp">ni 你</div></div>
+        <div class="num-cell"><div class="digit">3</div><div class="jp">san 三</div></div>
+        <div class="num-cell"><div class="digit">4</div><div class="jp">yon 哟恩</div></div>
+        <div class="num-cell"><div class="digit">5</div><div class="jp">go 购</div></div>
+        <div class="num-cell"><div class="digit">6</div><div class="jp">roku 楼哭</div></div>
+        <div class="num-cell"><div class="digit">7</div><div class="jp">nana 那那</div></div>
+        <div class="num-cell"><div class="digit">8</div><div class="jp">hachi 哈级</div></div>
+        <div class="num-cell"><div class="digit">9</div><div class="jp">kyū 9</div></div>
+        <div class="num-cell"><div class="digit">10</div><div class="jp">jū 啾</div></div>
+      </div>
+    </div>
+
+    <!-- ===== 1. 基础礼貌 ===== -->
+    <div class="period" id="basic-politeness">
+      <span class="period-emoji">🙇</span>
+      <span class="period-cn">基础礼貌</span>
+      <span class="period-en">Politeness</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">早上 · 进店 · 见面</div>
+      <div class="phrase-jp">おはようございます / こんにちは / こんばんは</div>
+      <div class="phrase-romaji">Ohayō gozaimasu / Konnichiwa / Konbanwa</div>
+      <div class="phrase-pinyin">哦-哈哟-购扎一马苏 / 空你七哇 / 空班哇</div>
+      <div class="phrase-cn">早上好（11 点前）/ 你好（白天）/ 晚上好</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">谢谢 · 万能</div>
+      <div class="phrase-jp">ありがとうございます</div>
+      <div class="phrase-romaji">Arigatō gozaimasu</div>
+      <div class="phrase-pinyin">啊里嘎拖-购扎一马苏</div>
+      <div class="phrase-cn">谢谢（正式）。"ありがとう Arigatō"是随意版·"どうも Dōmo"是超随意"thanks"。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">对不起 · 借光</div>
+      <div class="phrase-jp">すみません</div>
+      <div class="phrase-romaji">Sumimasen</div>
+      <div class="phrase-pinyin">苏咪马生</div>
+      <div class="phrase-cn">万能词！可以是"对不起 / 打扰一下 / 谢谢"。叫服务员、问路、轻撞别人都用它。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">听不懂 · 求救</div>
+      <div class="phrase-jp">日本語が分かりません</div>
+      <div class="phrase-romaji">Nihongo ga wakarimasen</div>
+      <div class="phrase-pinyin">你红购 嘎 哇卡里马生</div>
+      <div class="phrase-cn">我不懂日语。对方会切换到英语或手势。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问对方能不能说英语</div>
+      <div class="phrase-jp">英語は話せますか？</div>
+      <div class="phrase-romaji">Eigo wa hanasemasu ka?</div>
+      <div class="phrase-pinyin">A购 哇 哈那塞马苏 卡</div>
+      <div class="phrase-cn">您会说英语吗？大多数年轻服务员能说一些。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">告辞 · 离开</div>
+      <div class="phrase-jp">失礼します</div>
+      <div class="phrase-romaji">Shitsurei shimasu</div>
+      <div class="phrase-pinyin">洗子累 洗马苏</div>
+      <div class="phrase-cn">告辞了 / 失礼了。离店、挂电话、进出场合都用。比"再见 sayōnara"更礼貌。</div>
+    </div>
+
+    <!-- ===== 2. 厕所 ===== -->
+    <div class="period" id="toilet">
+      <span class="period-emoji">🚻</span>
+      <span class="period-cn">找厕所</span>
+      <span class="period-en">Restroom</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问厕所在哪</div>
+      <div class="phrase-jp">トイレはどこですか？</div>
+      <div class="phrase-romaji">Toire wa doko desu ka?</div>
+      <div class="phrase-pinyin">拖一累 哇 多扣 day苏 卡</div>
+      <div class="phrase-cn">厕所在哪里？最常用。"Toire"日语直接借用英语 "toilet"。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">借用商店/餐厅的厕所</div>
+      <div class="phrase-jp">すみません、お手洗いをお借りできますか？</div>
+      <div class="phrase-romaji">Sumimasen, otearai o okari dekimasu ka?</div>
+      <div class="phrase-pinyin">苏咪马生·哦-day-阿莱 哦 哦-卡里 day-ki-马苏 卡</div>
+      <div class="phrase-cn">不好意思·能借用一下洗手间吗？比 "toire" 更礼貌·适合非消费场所或高档店。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">指示牌识别</div>
+      <div class="phrase-jp">お手洗い / トイレ / 化粧室 / WC</div>
+      <div class="phrase-romaji">Otearai / Toire / Keshōshitsu / WC</div>
+      <div class="phrase-pinyin">—</div>
+      <div class="phrase-cn">都是厕所。男性 <strong>男 / 殿方 (tonogata)</strong>·女性 <strong>女 / ご婦人 (gofujin)</strong>。</div>
+    </div>
+
+    <!-- ===== 3. 餐厅基础 ===== -->
+    <div class="period" id="restaurant-basic">
+      <span class="period-emoji">🍽</span>
+      <span class="period-cn">餐厅 · 基础</span>
+      <span class="period-en">Restaurant · Basic</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">进店 · 报预约名</div>
+      <div class="phrase-jp">予約した [Li] です</div>
+      <div class="phrase-romaji">Yoyaku shita [Li] desu</div>
+      <div class="phrase-pinyin">哟-呀哭 洗-塔 [Li] day苏</div>
+      <div class="phrase-cn">我是预约了的 Li。报姓 + desu 即可。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">两个人</div>
+      <div class="phrase-jp">二人です</div>
+      <div class="phrase-romaji">Futari desu</div>
+      <div class="phrase-pinyin">夫-塔里 day苏</div>
+      <div class="phrase-cn">两个人。也可以直接比手势"2"。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问推荐</div>
+      <div class="phrase-jp">おすすめは何ですか？</div>
+      <div class="phrase-romaji">Osusume wa nan desu ka?</div>
+      <div class="phrase-pinyin">哦-苏-苏-may 哇 难 day苏 卡</div>
+      <div class="phrase-cn">推荐是什么？万能问。寿司店、烧鸟、居酒屋都好用。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">这个 · 点单</div>
+      <div class="phrase-jp">これをお願いします</div>
+      <div class="phrase-romaji">Kore o onegai shimasu</div>
+      <div class="phrase-pinyin">扣累 哦 哦-内-改 洗马苏</div>
+      <div class="phrase-cn">请来这个。指着菜单或橱窗说·万用。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">买单</div>
+      <div class="phrase-jp">お会計をお願いします</div>
+      <div class="phrase-romaji">Okaikei o onegai shimasu</div>
+      <div class="phrase-pinyin">哦-卡-一-kei 哦 哦-内-改 洗马苏</div>
+      <div class="phrase-cn">麻烦买单。日本很多餐厅是<strong>到收银台付钱</strong>·而不是叫服务员到桌子。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">收信用卡吗</div>
+      <div class="phrase-jp">クレジットカードで払えますか？</div>
+      <div class="phrase-romaji">Kurejitto kādo de haraemasu ka?</div>
+      <div class="phrase-pinyin">苦-累-级-嘟 卡-多 day 哈-拉-A-马苏 卡</div>
+      <div class="phrase-cn">能用信用卡吗？日本小店多收现金。"Genkin nomi 現金のみ"= 只收现金。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">拍照可以吗</div>
+      <div class="phrase-jp">写真を撮ってもいいですか？</div>
+      <div class="phrase-romaji">Shashin o totte mo ii desu ka?</div>
+      <div class="phrase-pinyin">沙-洗恩 哦 拖-day 摸 一 day苏 卡</div>
+      <div class="phrase-cn">能拍照吗？高级料亭/omakase 进店一定要先问·有些店禁拍。</div>
+    </div>
+
+    <!-- ===== 4. 和 chef 互动 ===== -->
+    <div class="period" id="chef">
+      <span class="period-emoji">👨‍🍳</span>
+      <span class="period-cn">和 chef 聊天</span>
+      <span class="period-en">Chat with Chef</span>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        日本 omakase / 怀石 / 烧鸟·<strong>chef 在板前 (counter) 直接做菜</strong>·欢迎互动！<br>
+        说几句日语·主厨会很开心·有时会多送一道菜或讲解食材。<br>
+        鳥さわ22、鬼之栖、Sazanka 都可以用上这些话。
+      </div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">开吃前 · 万能</div>
+      <div class="phrase-jp">いただきます</div>
+      <div class="phrase-romaji">Itadakimasu</div>
+      <div class="phrase-pinyin">一-塔-达-ki-马苏</div>
+      <div class="phrase-cn"><strong>开动了！</strong>开吃前双手合十说·礼貌中的礼貌。chef 听到会点头。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">夸赞 · 太好吃了</div>
+      <div class="phrase-jp">おいしい！本当に美味しいです！</div>
+      <div class="phrase-romaji">Oishii! Hontō ni oishii desu!</div>
+      <div class="phrase-pinyin">哦-一-洗 / 红-拖-你 哦-一-洗 day苏</div>
+      <div class="phrase-cn">好吃！真的好吃！chef 最爱听·一定要说。<br><span class="tip">男生说 "umai うまい!" 也行·更随性</span></div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问食材 · 这是什么</div>
+      <div class="phrase-jp">これは何ですか？</div>
+      <div class="phrase-romaji">Kore wa nan desu ka?</div>
+      <div class="phrase-pinyin">扣累 哇 难 day苏 卡</div>
+      <div class="phrase-cn">这是什么？指着料理问·chef 会讲食材名字 + 产地。<br><span class="tip">想深入问：「この食材はどこから？ Kono shokuzai wa doko kara? = 这食材哪里来的？」</span></div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问做法 · 怎么做的</div>
+      <div class="phrase-jp">どうやって作りましたか？</div>
+      <div class="phrase-romaji">Dō yatte tsukurimashita ka?</div>
+      <div class="phrase-pinyin">道 呀-day 子哭里马洗塔 卡</div>
+      <div class="phrase-cn">这是怎么做的？chef 一般很乐意讲技法·这是建立交流的好开头。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">介绍自己 · 从美国来</div>
+      <div class="phrase-jp">アメリカから来ました</div>
+      <div class="phrase-romaji">Amerika kara kimashita</div>
+      <div class="phrase-pinyin">阿-may-里-卡 卡拉 ki-马洗塔</div>
+      <div class="phrase-cn">我们从美国来。chef 会很热情·可能给你推荐多 1-2 道。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">问招牌 · 您最拿手</div>
+      <div class="phrase-jp">シェフの一番のおすすめは？</div>
+      <div class="phrase-romaji">Shefu no ichiban no osusume wa?</div>
+      <div class="phrase-pinyin">shey-夫 no 一-级班 no 哦-苏-苏-may 哇</div>
+      <div class="phrase-cn">chef 您最推荐的是？板前直接交流很地道。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">夸厨艺 · 像艺术品</div>
+      <div class="phrase-jp">芸術みたいですね！</div>
+      <div class="phrase-romaji">Geijutsu mitai desu ne!</div>
+      <div class="phrase-pinyin">gei-鸠-子 米-塔-一 day苏 内</div>
+      <div class="phrase-cn">像艺术品一样啊！特别适合怀石、寿司、抹茶甜点。chef 必笑。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">吃完 · 感谢</div>
+      <div class="phrase-jp">ごちそうさまでした</div>
+      <div class="phrase-romaji">Gochisōsama deshita</div>
+      <div class="phrase-pinyin">购-七-嗖-撒-马 day-洗塔</div>
+      <div class="phrase-cn"><strong>多谢款待！</strong>吃完一定要说·对 chef 最高礼貌。比"谢谢"更地道。</div>
+    </div>
+
+    <!-- ===== 5. 购物 ===== -->
+    <div class="period" id="shopping">
+      <span class="period-emoji">🛍</span>
+      <span class="period-cn">购物</span>
+      <span class="period-en">Shopping</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">多少钱</div>
+      <div class="phrase-jp">いくらですか？</div>
+      <div class="phrase-romaji">Ikura desu ka?</div>
+      <div class="phrase-pinyin">一-哭-拉 day苏 卡</div>
+      <div class="phrase-cn">多少钱？看标价就是含税。"Zeikomi 税込" = 含税·"Zeinuki 税抜" = 不含税。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">免税</div>
+      <div class="phrase-jp">免税できますか？パスポートあります</div>
+      <div class="phrase-romaji">Menzei dekimasu ka? Pasupōto arimasu</div>
+      <div class="phrase-pinyin">men-zei day-ki-马苏 卡？帕苏波-拖 啊-里-马苏</div>
+      <div class="phrase-cn">能免税吗？我有护照。<strong>消费 ¥5,000 以上</strong>可以免税·当场办手续。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">试穿</div>
+      <div class="phrase-jp">試着してもいいですか？</div>
+      <div class="phrase-romaji">Shichaku shite mo ii desu ka?</div>
+      <div class="phrase-pinyin">洗-恰哭 洗-day 摸 一 day苏 卡</div>
+      <div class="phrase-cn">能试穿吗？日本店家很欢迎试穿·会给你一块"颜面遮罩"避免化妆蹭到衣服。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">其他颜色 / 尺寸</div>
+      <div class="phrase-jp">他の色はありますか？/ Lサイズはありますか？</div>
+      <div class="phrase-romaji">Hoka no iro wa arimasu ka? / L saizu wa arimasu ka?</div>
+      <div class="phrase-pinyin">虎-卡 no 一-楼 哇 啊-里-马苏 卡 / L 撒-一-zu 哇 啊-里-马苏 卡</div>
+      <div class="phrase-cn">有其他颜色吗？/ 有 L 码吗？日本尺寸普遍小一码。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">只看不买</div>
+      <div class="phrase-jp">見ているだけです</div>
+      <div class="phrase-romaji">Mite iru dake desu</div>
+      <div class="phrase-pinyin">米-day 一-鲁 达-kei day苏</div>
+      <div class="phrase-cn">我只是看看。店员热情跟着时·这句客气退订。</div>
+    </div>
+
+    <!-- ===== 6. 交通 ===== -->
+    <div class="period" id="transport">
+      <span class="period-emoji">🚆</span>
+      <span class="period-cn">交通</span>
+      <span class="period-en">Transport</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">修善寺站 · 买乘车券</div>
+      <div class="phrase-jp">修善寺から東京まで、大人2枚、乗車券をお願いします</div>
+      <div class="phrase-romaji">Shuzenji kara Tōkyō made, otona ni-mai, jōshaken o onegai shimasu</div>
+      <div class="phrase-pinyin">修-zen-级 卡拉 拖-kyo 马-day · 哦-too-那 你-埋 · 就-shia-ken 哦 哦-内-改 洗马苏</div>
+      <div class="phrase-cn">从修善寺到东京·成人 2 张·乘车券请。<br><span class="tip">补一句："特急券は えきねっとで購入済みです" (特急券已在 えきねっと 购买) = Tokkyū-ken wa Ekinet de kōnyū-zumi desu</span></div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">这趟车去 X 吗</div>
+      <div class="phrase-jp">この電車は [東京] に行きますか？</div>
+      <div class="phrase-romaji">Kono densha wa [Tōkyō] ni ikimasu ka?</div>
+      <div class="phrase-pinyin">扣-no den-沙 哇 [拖-kyo] 你 一-ki-马苏 卡</div>
+      <div class="phrase-cn">这趟车去 [东京] 吗？换 [] 里的地名即可。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">打车 · 去 X</div>
+      <div class="phrase-jp">[The Okura Tokyo] までお願いします</div>
+      <div class="phrase-romaji">[The Okura Tokyo] made onegai shimasu</div>
+      <div class="phrase-pinyin">[地名] 马-day 哦-内-改 洗-马苏</div>
+      <div class="phrase-cn">麻烦到 [Okura Tokyo]。地址给司机看是最快的。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">能用 Suica 吗</div>
+      <div class="phrase-jp">Suicaは使えますか？</div>
+      <div class="phrase-romaji">Suica wa tsukaemasu ka?</div>
+      <div class="phrase-pinyin">Suica 哇 子-卡-A-马苏 卡</div>
+      <div class="phrase-cn">能用 Suica 吗？私铁有些不收 IC 卡（比如修善寺到三島段）。</div>
+    </div>
+
+    <!-- ===== 7. 酒店 ===== -->
+    <div class="period" id="hotel">
+      <span class="period-emoji">🏨</span>
+      <span class="period-cn">酒店</span>
+      <span class="period-en">Hotel</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">check-in</div>
+      <div class="phrase-jp">チェックインお願いします。[Li] です</div>
+      <div class="phrase-romaji">Chekku-in onegai shimasu. [Li] desu</div>
+      <div class="phrase-pinyin">check-in 哦-内-改 洗马苏。[Li] day苏</div>
+      <div class="phrase-cn">麻烦 check-in·我是 Li。日语借英语词·照念即可。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">FHR / Amex Plat 权益</div>
+      <div class="phrase-jp">Amex プラチナで予約しました。FHR 特典をお願いします</div>
+      <div class="phrase-romaji">Amex Purachina de yoyaku shimashita. FHR tokuten o onegai shimasu</div>
+      <div class="phrase-pinyin">Amex 普-拉-级-那 day 哟-呀哭 洗-马洗塔。FHR 拖哭-ten 哦 哦-内-改 洗马苏</div>
+      <div class="phrase-cn">我用 Amex Plat 预订·请确认 FHR 权益。Okura 前台一般直接看预订单·不用多说。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">寄存行李</div>
+      <div class="phrase-jp">荷物を預けてもいいですか？</div>
+      <div class="phrase-romaji">Nimotsu o azukete mo ii desu ka?</div>
+      <div class="phrase-pinyin">你-摸-子 哦 阿-zu-kei-day 摸 一 day苏 卡</div>
+      <div class="phrase-cn">能寄存行李吗？check-in 前 / check-out 后都可用。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">叫醒服务</div>
+      <div class="phrase-jp">明日朝 [7] 時にモーニングコールをお願いします</div>
+      <div class="phrase-romaji">Ashita asa [shichi] ji ni mōningu kōru o onegai shimasu</div>
+      <div class="phrase-pinyin">啊-洗塔 啊-撒 [洗-级] 级 你 mo-宁-哥 扣-鲁 哦 哦-内-改 洗马苏</div>
+      <div class="phrase-cn">明早 [7] 点叫醒。数字代换看顶部表。</div>
+    </div>
+
+    <!-- ===== 8. 二次元 / KFC ===== -->
+    <div class="period" id="otaku">
+      <span class="period-emoji">🎮</span>
+      <span class="period-cn">二次元 · KFC</span>
+      <span class="period-en">Otaku · KFC</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">KFC · 取预约的套餐</div>
+      <div class="phrase-jp">予約した「原神コラボパック」を受け取りに来ました</div>
+      <div class="phrase-romaji">Yoyaku shita "Genshin korabo pakku" o uketori ni kimashita</div>
+      <div class="phrase-pinyin">哟-呀哭 洗塔「原神 扣-拉-波 帕哭」哦 乌-kei-拖-里 你 ki-马洗塔</div>
+      <div class="phrase-cn">我来取预约的原神联动套餐。出示订单号/邮件二维码即可。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">animate · 找特定商品</div>
+      <div class="phrase-jp">[ぼっち・ざ・ろっく] のグッズはどこですか？</div>
+      <div class="phrase-romaji">[Bocchi za rokku] no guzzu wa doko desu ka?</div>
+      <div class="phrase-pinyin">[孤独摇滚] no 古-zu 哇 多扣 day苏 卡</div>
+      <div class="phrase-cn">[孤独摇滚] 的周边在哪里？换 [] 里的作品名。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">还有货吗 / 新品何时到</div>
+      <div class="phrase-jp">これはまだありますか？/ 新作はいつ入荷しますか？</div>
+      <div class="phrase-romaji">Kore wa mada arimasu ka? / Shinsaku wa itsu nyūka shimasu ka?</div>
+      <div class="phrase-pinyin">扣累 哇 马-达 阿里马苏 卡 / 洗-恩-撒哭 哇 一-子 nyu-卡 洗马苏 卡</div>
+      <div class="phrase-cn">这个还有吗？/ 新品什么时候到？</div>
+    </div>
+
+    <!-- ===== 9. 紧急 ===== -->
+    <div class="period" id="emergency">
+      <span class="period-emoji">🆘</span>
+      <span class="period-cn">紧急</span>
+      <span class="period-en">Emergency</span>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">迷路</div>
+      <div class="phrase-jp">道に迷いました。[ホテル] はどこですか？</div>
+      <div class="phrase-romaji">Michi ni mayoimashita. [Hoteru] wa doko desu ka?</div>
+      <div class="phrase-pinyin">米-级 你 马-哟-一-马洗塔。[酒店] 哇 多扣 day苏 卡</div>
+      <div class="phrase-cn">我迷路了。[酒店] 在哪？路人 90% 会拿出手机帮你查 Google Maps。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">不舒服</div>
+      <div class="phrase-jp">体調が悪いです。薬局はどこですか？</div>
+      <div class="phrase-romaji">Taichō ga warui desu. Yakkyoku wa doko desu ka?</div>
+      <div class="phrase-pinyin">太-拖 嘎 哇-鲁-一 day苏。呀-科-哭 哇 多扣 day苏 卡</div>
+      <div class="phrase-cn">我不舒服。药局在哪？日本药局到处都是·感冒药/胃药随便买。</div>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-scene">叫救护车</div>
+      <div class="phrase-jp">救急車を呼んでください</div>
+      <div class="phrase-romaji">Kyūkyūsha o yonde kudasai</div>
+      <div class="phrase-pinyin">9-9-沙 哦 哟恩-day 哭-达-赛</div>
+      <div class="phrase-cn">请叫救护车。紧急电话 <strong>119</strong>（救护 + 火警）/ <strong>110</strong>（警察）。</div>
+    </div>
+
+    <!-- ===== 10. 出示卡 ===== -->
+    <div class="period" id="show-cards">
+      <span class="period-emoji">📋</span>
+      <span class="period-cn">出示卡 · 直接展示</span>
+      <span class="period-en">Show Cards</span>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">
+        说不出来时·<strong>截图保存这几张卡</strong>·直接给店员看。<br>
+        中文说明你看·日语对方看·点头/摇头沟通即可。
+      </div>
+    </div>
+
+    <div class="show-card">
+      <div class="show-label">🚆 修善寺站 · 买票</div>
+      <div class="show-jp">
+        修善寺から東京まで<br>
+        大人 2 枚 · 乗車券<br>
+        特急券は えきねっと で購入済<br>
+        クレジットカード OK ですか？
+      </div>
+      <div class="show-cn">
+        从修善寺到东京·成人 2 张乘车券·特急券已在 えきねっと 买·能用信用卡吗？
+      </div>
+    </div>
+
+    <div class="show-card">
+      <div class="show-label">🍗 KFC · 取原神套餐</div>
+      <div class="show-jp">
+        予約済みの「原神コラボパック A・B」を<br>
+        受け取りに来ました<br>
+        予約番号は QR コードでご覧ください
+      </div>
+      <div class="show-cn">
+        我来取已预约的原神套餐 A、B·订单号请看二维码。
+      </div>
+    </div>
+
+    <div class="show-card">
+      <div class="show-label">💴 免税 · 结账</div>
+      <div class="show-jp">
+        免税でお願いします<br>
+        パスポート持っています<br>
+        Amex プラチナで払います
+      </div>
+      <div class="show-cn">
+        请帮我免税·我有护照·用 Amex Plat 支付。
+      </div>
+    </div>
+
+    <div class="show-card">
+      <div class="show-label">🏨 酒店 · check-in</div>
+      <div class="show-jp">
+        チェックインお願いします<br>
+        名前: Yilin Li<br>
+        Amex プラチナで予約·FHR 特典付き
+      </div>
+      <div class="show-cn">
+        请 check-in·我叫 Yilin Li·用 Amex Plat 预约·有 FHR 权益。
+      </div>
+    </div>
+
+    <div class="show-card">
+      <div class="show-label">🆘 紧急 · 不舒服</div>
+      <div class="show-jp">
+        体調が悪いです<br>
+        助けてください<br>
+        英語が話せる人を呼んでください
+      </div>
+      <div class="show-cn">
+        我不舒服·请帮帮我·请找一个会说英语的人来。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="bottom-nav">
+    <a href="day6.html" class="prev">← Day 6 · 青山告别</a>
+    <a href="shopping.html" class="next">购物清单 →</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+  // 时间轴可点击高亮
+  document.querySelectorAll('.timeline-row').forEach(row => {
+    row.addEventListener('click', e => {
+      const href = row.getAttribute('href');
+      if (href) {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          e.preventDefault();
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
