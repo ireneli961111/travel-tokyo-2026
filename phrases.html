@@ -982,10 +982,10 @@
       max-width: 980px;
       margin: 0 auto;
       padding: 0 40px 60px;
-      display: grid;
-      grid-template-columns: 220px 1fr;
+      display: flex;
+      flex-direction: row;
       gap: 40px;
-      align-items: start;
+      align-items: flex-start;
     }
 
     /* 左侧 sticky 索引（quick-nav 改造）*/
@@ -998,8 +998,8 @@
       border: 1px solid rgba(107, 138, 114, 0.16);
       border-radius: 12px;
       box-shadow: 0 2px 16px rgba(120, 90, 70, 0.05);
-      grid-column: 1;
-      grid-row: 1 / 999;
+      flex: 0 0 220px;
+      align-self: flex-start;
     }
     .quick-nav-title {
       font-size: 10px;
@@ -1040,13 +1040,16 @@
       text-align: left;
     }
 
-    /* 右侧内容滚动区 */
-    .content-wrap > .period,
-    .content-wrap > .phrase-card,
-    .content-wrap > .quote-card,
-    .content-wrap > .info-card,
-    .content-wrap > .show-card {
-      grid-column: 2;
+    /* 右侧主内容区 */
+    .phrase-main {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .phrase-main > .period,
+    .phrase-main > .phrase-card,
+    .phrase-main > .quote-card,
+    .phrase-main > .info-card,
+    .phrase-main > .show-card {
       margin-left: 0;
       margin-right: 0;
     }
@@ -1293,6 +1296,8 @@
         <a href="#show-cards"><span class="ico">📋</span><span class="lbl">出示卡</span></a>
       </div>
     </div>
+
+    <div class="phrase-main">
 
     <!-- ===== 0. 基础假名速记 ===== -->
     <div class="period" id="basics">
@@ -1815,6 +1820,8 @@
         我不舒服·请帮帮我·请找一个会说英语的人来。
       </div>
     </div>
+
+    </div><!-- /phrase-main -->
 
   </div>
 

@@ -44,9 +44,29 @@
 
   /* ===== HERO ===== */
   .hero {
-    padding: 60px 28px 50px;
+    padding: 0;
     background: linear-gradient(180deg, #e8ddd0 0%, #f0e7d8 100%);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image {
+    width: 100%;
+    height: 200px;
+    background: url('sakura.jpg') center 30% / cover no-repeat;
+    position: relative;
+  }
+  .hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(232, 221, 208, 0.4) 80%, #e8ddd0 100%);
+    pointer-events: none;
+  }
+  .hero-content {
+    padding: 30px 28px 50px;
+    position: relative;
+    z-index: 2;
   }
   .hero-eyebrow {
     font-family: 'DM Serif Display', serif;
@@ -365,42 +385,57 @@
       padding: 0;
     }
     
-    /* HERO 全宽 · 内容居中 */
+    /* HERO 宽屏 · 双栏：左标题 + 右樱花 */
     .hero {
-      padding: 100px 40px 80px;
-      text-align: center;
-      position: relative;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      min-height: 480px;
+      align-items: stretch;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 60%);
-      pointer-events: none;
+    .hero-image {
+      height: auto;
+      grid-column: 2;
+      grid-row: 1;
+      background: url('sakura.jpg') center 30% / cover no-repeat;
     }
-    .hero-eyebrow { font-size: 14px; }
+    .hero-image::after {
+      background: linear-gradient(90deg, #e8ddd0 0%, rgba(232, 221, 208, 0.3) 25%, transparent 50%);
+    }
+    .hero-content {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 80px 60px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-self: center;
+    }
+    .hero-eyebrow { 
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
     .hero-title { 
-      font-size: 96px; 
-      margin-bottom: 16px;
+      font-size: 64px; 
+      margin-bottom: 14px;
+      line-height: 1.1;
     }
     .hero-subtitle { 
-      font-size: 22px; 
-      margin-bottom: 28px;
+      font-size: 18px; 
+      margin-bottom: 26px;
     }
     .hero-dates {
-      font-size: 15px;
-      max-width: 480px;
-      margin: 0 auto 32px;
-      line-height: 2.2;
+      font-size: 14px;
+      max-width: 360px;
+      margin: 0 0 26px 0;
+      line-height: 2;
     }
     .hero-meta {
-      gap: 32px;
-      font-size: 13px;
+      gap: 20px;
+      font-size: 12px;
+      align-self: flex-start;
     }
 
     /* opening quote 宽一些 */
@@ -456,19 +491,22 @@
 
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-eyebrow">TOKYO · 2026 · SUMMER</div>
-    <h1 class="hero-title">东京八日</h1>
-    <p class="hero-subtitle">A Slow Journey · June 2026</p>
-    <p class="hero-dates">
-      <strong>JUN 13</strong> SFO → SEA<br>
-      <strong>JUN 15-16</strong> SEA → HND → 修善寺<br>
-      <strong>JUN 17-21</strong> Tokyo · Okura 4 晚<br>
-      <strong>JUN 21</strong> NRT → SFO
-    </p>
-    <div class="hero-meta">
-      <span><strong>8</strong> DAYS</span>
-      <span><strong>2</strong> PEOPLE</span>
-      <span><strong>9</strong> RESERVATIONS</span>
+    <div class="hero-image"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">TOKYO · 2026 · SUMMER</div>
+      <h1 class="hero-title">东京八日</h1>
+      <p class="hero-subtitle">A Slow Journey · June 2026</p>
+      <p class="hero-dates">
+        <strong>JUN 13</strong> SFO → SEA<br>
+        <strong>JUN 15-16</strong> SEA → HND → 修善寺<br>
+        <strong>JUN 17-21</strong> Tokyo · Okura 4 晚<br>
+        <strong>JUN 21</strong> NRT → SFO
+      </p>
+      <div class="hero-meta">
+        <span><strong>8</strong> DAYS</span>
+        <span><strong>2</strong> PEOPLE</span>
+        <span><strong>9</strong> RESERVATIONS</span>
+      </div>
     </div>
   </header>
 
