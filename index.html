@@ -318,9 +318,135 @@
   }
 
   /* 宽屏适配 */
-  @media (min-width: 769px) {
-    .container { max-width: 600px; }
-    .quick-cards { grid-template-columns: 1fr 1fr 1fr; }
+  @media (min-width: 900px) {
+    html { font-size: 16px; }
+    html, body { overflow: visible; }
+    body {
+      padding: 0;
+      background: 
+        linear-gradient(180deg, var(--bg-soft) 0%, #ede4d3 60%, var(--bg-soft) 100%);
+      position: relative;
+    }
+    /* 两侧大色块装饰 · 让"空"变成"留白美" */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 600px 800px at 0% 25%, rgba(168, 149, 120, 0.18), transparent 70%),
+        radial-gradient(ellipse 600px 800px at 100% 75%, rgba(168, 149, 120, 0.18), transparent 70%),
+        radial-gradient(circle 500px at 50% 100%, rgba(168, 149, 120, 0.10), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* 邻天色细微纹理 */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 400px 500px at 15% 80%, rgba(122, 153, 168, 0.10), transparent 60%),
+        radial-gradient(ellipse 400px 500px at 85% 20%, rgba(184, 125, 125, 0.08), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .page {
+      background: transparent;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      box-shadow: 0 0 80px rgba(120, 90, 70, 0.06);
+    }
+    .container {
+      max-width: 100%;
+      background: transparent;
+      padding: 0;
+    }
+    
+    /* HERO 全宽 · 内容居中 */
+    .hero {
+      padding: 100px 40px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow { font-size: 14px; }
+    .hero-title { 
+      font-size: 96px; 
+      margin-bottom: 16px;
+    }
+    .hero-subtitle { 
+      font-size: 22px; 
+      margin-bottom: 28px;
+    }
+    .hero-dates {
+      font-size: 15px;
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 2.2;
+    }
+    .hero-meta {
+      gap: 32px;
+      font-size: 13px;
+    }
+
+    /* opening quote 宽一些 */
+    .opening-quote {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 36px;
+    }
+    .opening-quote-text { font-size: 22px; }
+    .opening-quote-trans { font-size: 13px; }
+
+    /* section head 居中 */
+    .section-head {
+      max-width: 1200px;
+      margin: 48px auto 24px;
+      padding: 0 40px;
+    }
+
+    /* 日程卡 · 双列 grid */
+    .days {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .day-card {
+      margin: 0;
+    }
+
+    /* 快速跳转 · 5 列 */
+    .quick-cards {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    /* 关键信息 · 居中 */
+    .key-info {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
   }
 </style>
 </head>
@@ -473,6 +599,13 @@
   </div>
 
   <div class="quick-cards">
+    <a href="phrases.html" class="quick-card">
+      <span class="icon">🗣</span>
+      <div class="text">
+        <div class="label">日语速查</div>
+        <div class="meta">11 类话术</div>
+      </div>
+    </a>
     <a href="day1.html#flight" class="quick-card">
       <span class="icon">✈️</span>
       <div class="text">
